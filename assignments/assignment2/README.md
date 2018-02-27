@@ -3,7 +3,7 @@
 
 > The goal of the assignment is to implement a Laplacian blob detector
 
-![](http://slazebni.cs.illinois.edu/spring18/assignment2/butterfly.jpg)
+![](http://slazebni.cs.illinois.edu/spring18/assignment2/butterfly.jpg)![](http://slazebni.cs.illinois.edu/spring18/assignment2/blobs_butterfly.gif)
 
 ## Algorithm outline
 1. Generate a Laplacian of Gaussian filter.
