@@ -5,7 +5,7 @@
 % img filename: butterfly.jpg, einstein.jpg, fishes.jpg, Florist.jpg
 % frog.jpg, gta5.jpg, sunflowers.jpg, tnj.jpg, music.jpg
 
-clc
+
 clear all
 % Read in image and convert to double and then grayscale
 img = imread('../data/butterfly.jpg');
@@ -16,11 +16,11 @@ img = im2double(img);
 % Image size
 [h, w] = size(img);
 % Define threshold
-threshold = 0.12;
+threshold = 0.35;
 % Increasing factor of k
 k = 1.2;
 % Define number of iterations
-levels = 6;
+levels = 5;
 % Define parameters for LoG
 initial_sigma = 2;
 sigma = 2;
@@ -33,9 +33,9 @@ tic
 scale_space = zeros(h, w, levels); 
 for i = 1:levels
     % Generate a Laplacian of Gaussian filter and scale normalization
-    LoG = fspecial('log', 2 * ceil(sigma) + 1, sigma);
+    LoG = fspecial('log', 2 * ceil(3*sigma) + 1, sigma);
     % Filter the img with LoG
-    scale_space(:,:,i) = (imfilter(img, LoG, 'same', 'replicate')).^2;
+    scale_space(:,:,i) = imfilter(img, LoG, 'same', 'replicate') .* (sigma^2);
     % Increase scale by a factor k
     sigma = sigma * k;
     % hsize = 2 * ceil(sigma) + 1;
@@ -88,21 +88,18 @@ for num = 1:levels
 end
 
 
-
-% [N,Index]=max(survive_space,[],3); % to find the index values and the CX and CY values.
-% si=size(N);
+% Find all the coordinates and corresponding sigma
 [row, col] = size(survive_space(:,:,num));
-id=1;
+idx = 1;
 for num = 1:levels
     for i = 1:row
         for j = 1:col
             if(survive_space(i,j,num) >= threshold) 
-                x(id) = i;
-                y(id) = j;
-                rad(id) = sqrt(2) * initial_sigma^num; 
-                id = id + 1;
-           end
-
+                cx(idx) = i;
+                cy(idx) = j;
+                rad(idx) = sqrt(2) * initial_sigma^num; 
+                idx = idx + 1;
+            end
         end
     end
 end
@@ -147,5 +144,5 @@ end
 % end
 %[c,r] = find(max_space);
 
-show_all_circles(img, y, x, rad);
 
+show_all_circles(img, cy', cx', rad');
