@@ -34,11 +34,19 @@ scale_space = zeros(h, w, levels);
 for i = 1:levels
     % Generate a Laplacian of Gaussian filter and scale normalization
     LoG = fspecial('log', 2 * ceil(3*sigma) + 1, sigma);
-    % Filter the img with LoG
-    scale_space(:,:,i) = imfilter(img, LoG, 'same', 'replicate') .* (sigma^2);
+    if i == 1
+        % Filter the img with LoG
+        scale_space(:,:,i) = imfilter(img, LoG, 'same', 'replicate') .* (sigma^2);
+    else
+        % Filter the img with LoG
+        response = imfilter(img_copy, LoG, 'same', 'replicate') .* (sigma^2);
+        scale_space(:,:,i) = imresize(response, [h, w]);
+    end
     % Increase scale by a factor k
     sigma = sigma * k;
     % hsize = 2 * ceil(sigma) + 1;
+    % Downsample the img
+    img_copy = imresize(img, 1/k);
 end
 toc
 
