@@ -3,7 +3,7 @@
 % 3/6/2018
 
 % img filename: butterfly.jpg, einstein.jpg, fishes.jpg, Florist.jpg
-% frog.jpg, gta5.jpg, sunflowers.jpg, tnj.jpg, USB2106-2.jpg
+% frog.jpg, gta5.jpg, sunflowers.jpg, tnj.jpg, music.jpg
 
 tic
 clc
