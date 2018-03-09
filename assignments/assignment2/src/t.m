@@ -7,7 +7,7 @@
 
 
 % Read in image and convert to double and then grayscale
-img = imread('../data/einstein.jpg');
+img = imread('../data/butterfly.jpg');
 img = rgb2gray(img);
 img = im2double(img);
 
@@ -15,9 +15,9 @@ img = im2double(img);
 % Image size
 [h, w] = size(img);
 % Define threshold
-threshold = 0.4;
+threshold = 0.3;
 % Increasing factor of k
-k = 1.25;
+k = 1.2;
 % Define number of iterations
 levels = 12;
 % Define parameters for LoG
@@ -26,38 +26,42 @@ sigma = 2;
 % hsize = 2 * ceil(2 * sigma) + 1;
 
 
-
+tic
 % Perform LoG filter to image for several levels
 % [h,w] - dimensions of image, n - number of levels in scale space
-scale_space = zeros(h, w, levels);
-tic
+scale_space = zeros(h, w, levels); 
 for i = 1:levels
     % Generate a Laplacian of Gaussian filter and scale normalization
-    LoG = fspecial('log', 2 * floor(3*sigma) + 1, sigma) .* (sigma^2);
-    if i == 1
-        % Filter the img with LoG
-        scale_space(:,:,i) = abs(imfilter(img, LoG, 'same', 'replicate'));
-    else
-        % Filter the img with LoG
-        response = abs(imfilter(img_copy, LoG, 'same', 'replicate'));
-        scale_space(:,:,i) = imresize(response, [h w]);
-    end
+    LoG = fspecial('log', 2 * ceil(3*sigma) + 1, sigma);
+    % Filter the img with LoG
+    scale_space(:,:,i) = imfilter(img, LoG, 'same', 'replicate') .* (sigma^2);
     % Increase scale by a factor k
     sigma = sigma * k;
     % hsize = 2 * ceil(sigma) + 1;
-    % Downsample the img
-    img_copy = imresize(img, 1/(k^i));
 end
 toc
 
 
 
 
+
+
+
+
+
 % Perform nonmaximum suppression in each 2D slice
+% nonmax_space = zeros(h, w, levels);
 suppressed_space = zeros(h,w,levels);
-for i = 1:levels
-    suppressed_space(:,:,i) = ordfilt2(scale_space(:,:,i),9,ones(3)); 
+suppress_order = 3;
+for num = 1:levels
+    % nonmax_space(:,:,num) = scale_space(:,:,num) .* imregionalmax(scale_space(:,:,num));
+    % nonmax_space(:,:,num) = scale_space(:,:,num) .* (maxima_space(:,:,num) >= threshold);
+    suppressed_space(:,:,num) = ordfilt2(scale_space(:,:,num),suppress_order^2, ones(suppress_order)); 
+    % suppressed_space(:,:,num) = suppressed_space(:,:,num) .* (suppressed_space(:,:,num) == nonmax_space(:,:,num));
 end
+
+
+
 
 
 % Perform nonmaximum suppression in scale space and apply threshold
@@ -75,33 +79,30 @@ end
 %     maxima_space(:,:,num) = (maxima_space(:,:,num) == scale_space(:,:,num)) .* img;
 % end
 
-maxima_space = max(suppressed_space, [], 3);
-survive_space = zeros(h,w,levels);
-for i = 1:levels
-    survive_space(:,:,i) = (maxima_space == scale_space(:,:,i));
-    survive_space(:,:,i) = survive_space(:,:,i) .* img;
-end
-% survive_space = 
 
+maxima_space = max(suppressed_space, [], 3);
+survive_space = zeros(h, w, levels);
+for num = 1:levels
+    survive_space(:,:,num) = (maxima_space == scale_space(:,:,num));
+    survive_space(:,:,num) = survive_space(:,:,num) .* img;
+end
 
 
 % Find all the coordinates and corresponding sigma
-% [row, col] = size(survive_space(:,:,1));
-% idx = 1;
-% cx = []; cy = []; rad = [];
-% for num = 1:levels
-%     for i = 1:h
-%         for j = 1:w
-%             if(survive_space(i,j,num) >= threshold) 
-%                 cx(idx) = i;
-%                 cy(idx) = j;
-%                 rad(idx) = sqrt(2) * initial_sigma^num; 
-%                 idx = idx + 1;
-%             end
-%         end
-%     end
-% end
-
+[row, col] = size(survive_space(:,:,num));
+idx = 1;
+for num = 1:levels
+    for i = 1:row
+        for j = 1:col
+            if(survive_space(i,j,num) >= threshold) 
+                cx(idx) = i;
+                cy(idx) = j;
+                rad(idx) = sqrt(2) * initial_sigma^num; 
+                idx = idx + 1;
+            end
+        end
+    end
+end
 
 
 
@@ -136,20 +137,12 @@ end
 
 % max_space = (maxima_space >= threshold);
 
-for num = 1:levels
-    [c,r] = find(survive_space(:,:,num) >= threshold);
-    rad = sqrt(2) * initial_sigma * k^num;
-    if num == 1
-        cx = c;
-        cy = r;
-        radius = rad .* ones(size(r,1), 1);
-    else
-        cx = [cx; c];
-        cy = [cy; r];
-        radius = [radius; rad .* ones(size(r,1), 1)];
-    end
-end
+% for num = 1:levels
+%     [c,r] = find(max_space(:,:,num));
+%     cx = [cx;r];
+%     cy = [cy;c];
+% end
 %[c,r] = find(max_space);
 
 
-show_all_circles(img, cy, cx, radius);
+show_all_circles(img, cy', cx', rad');
