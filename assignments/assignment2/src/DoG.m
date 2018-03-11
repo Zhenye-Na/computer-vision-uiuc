@@ -1,4 +1,4 @@
-% Assignment 2: Scale-space blob detection
+% Assignment 2: Blob Detection using Scale-space 
 % Zhenye Na (zna2)
 % 3/6/2018
 
@@ -10,7 +10,6 @@
 % Query the last warning to acquire the identifier.  For example:
 % warnStruct = warning('query', 'last');
 % msgid_integerCat = warnStruct.identifier
-% msgid_integerCat =
 % MATLAB:concatenation:integerInteraction
 warning('off', 'Images:initSize:adjustingMag');
 
