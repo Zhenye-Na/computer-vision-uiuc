@@ -1,4 +1,4 @@
-% Assignment 2: Scale-space blob detection
+% Assignment 2: Blob Detection using Scale-space 
 % Zhenye Na (zna2)
 % 3/6/2018
 
@@ -12,19 +12,12 @@ img = rgb2gray(img);
 img = im2double(img);
 
 
-% Image size
-[h, w] = size(img);
-% Define threshold
-threshold = 0.05;
-% Increasing factor of k
-k = 1.25;
-% Define number of iterations
-levels = 12;
-% Define parameters for LoG
-initial_sigma = 2;
+[h, w] = size(img);             % Image size
+threshold = 0.25;               % Define threshold
+k = 1.25;                       % Increasing factor of k
+levels = 12;                    % Define number of iterations
+initial_sigma = 2;              % Define scale for LoG
 sigma = 2;
-% hsize = 2 * ceil(2 * sigma) + 1;
-
 
 
 % Perform LoG filter to image for several levels
@@ -99,14 +92,11 @@ for i = 1:levels
     survive_space(:,:,i) = (maxima_space == scale_space(:,:,i));
     survive_space(:,:,i) = survive_space(:,:,i) .* img;
 end
-% survive_space = 
 
 
 
 % Find all the coordinates and corresponding sigma
 % % Find index and corresponding radius
-
-
 for num = 1:levels
     [c,r] = find(survive_space(:,:,num) >= threshold);
     rad = sqrt(2) * initial_sigma * k^num;
@@ -120,7 +110,5 @@ for num = 1:levels
         radius = [radius; rad .* ones(size(r,1), 1)];
     end
 end
-%[c,r] = find(max_space);
-
 
 show_all_circles(img, cy, cx, radius, threshold, initial_sigma, k);

@@ -1,4 +1,4 @@
-% Assignment 2: Scale-space blob detection
+% Assignment 2: Blob Detection using Scale-space 
 % Zhenye Na (zna2)
 % 3/6/2018
 
@@ -10,7 +10,6 @@
 % Query the last warning to acquire the identifier.  For example: 
 % warnStruct = warning('query', 'last');
 % msgid_integerCat = warnStruct.identifier
-% msgid_integerCat =
 % MATLAB:concatenation:integerInteraction
 warning('off', 'Images:initSize:adjustingMag');
 
@@ -21,18 +20,12 @@ img = rgb2gray(img);
 img = im2double(img);
 
 
-% Image size
-[h, w] = size(img);
-% Define threshold
-threshold = 0.25;
-% Increasing factor of k
-k = 1.25;
-% Define number of iterations
-levels = 12;
-% Define parameters for LoG
-initial_sigma = 2;
+[h, w] = size(img);             % Image size
+threshold = 0.25;               % Define threshold
+k = 1.25;                       % Increasing factor of k
+levels = 12;                    % Define number of iterations
+initial_sigma = 2;              % Define scale for LoG
 sigma = 2;
-
 
 
 % Perform LoG filter to image for several levels

@@ -1,3 +1,7 @@
+% Assignment 2: Blob Detection using Scale-space 
+% Zhenye Na (zna2)
+% 3/6/2018
+
 % plot 3D
 g1=fspecial('log', 15, 2);
 g2=Gaussian_filter(15,2);
