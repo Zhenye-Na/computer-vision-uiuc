@@ -1,22 +1,31 @@
-[img, map] = imread('../data/einstein.jpg');
+% Assignment 2: Scale-space blob detection
+% Zhenye Na (zna2)
+% 3/6/2018
+
+% img filename: butterfly.jpg, einstein.jpg, fishes.jpg, flower.jpg
+% frog.jpg, gta5.jpg, sunflowers.jpg, tnj.jpg, music.jpg
+
+% Turn off this warning "Warning: Image is too big to fit on screen; displaying at 33% "
+% To set the warning state, you must first know the message identifier for the one warning you want to enable. 
+% Query the last warning to acquire the identifier.  For example: 
+% warnStruct = warning('query', 'last');
+% msgid_integerCat = warnStruct.identifier
+% MATLAB:concatenation:integerInteraction
+warning('off', 'Images:initSize:adjustingMag');
+
+% clear all
+% Read in image and convert to double and then grayscale
+[img, map] = imread('../data/sunflowers.jpg');
 img = rgb2gray(img);
 img = im2double(img);
 
 
-% Image size
-[h, w] = size(img);
-% Define threshold
-threshold = 0.25;
-% Increasing factor of k
-k = 1.25;
-% Define number of iterations
-levels = 1;
-% Define parameters for LoG
-initial_sigma = 2;
+[h, w] = size(img);             % Image size
+threshold = 0.15;               % Define threshold
+k = 1.25;                       % Increasing factor of k
+levels = 1;                     % Define number of iterations
+initial_sigma = 2;              % Define scale for LoG
 sigma = 2;
-% hsize = 2 * ceil(2 * sigma) + 1;
-
-
 
 dx = [-1 0 1; -1 0 1; -1 0 1];  % Derivative masks
 dy = dx';
@@ -28,45 +37,27 @@ Iy = conv2(img, dy, 'same');
 % minimum size 1x1.
 g = fspecial('gaussian',max(1,fix(6*sigma)), sigma);
 
-Ix2 = conv2(Ix.^2, g, 'same');  % Smoothed squared image derivatives
+% Smoothed squared image derivatives
+Ix2 = conv2(Ix.^2, g, 'same');
 Iy2 = conv2(Iy.^2, g, 'same');
 Ixy = conv2(Ix.*Iy, g, 'same');
 
-
-
-
-cim = (Ix2.*Iy2 - Ixy.^2)./(Ix2 + Iy2 + eps); % Harris corner measure
-
-[U,S,V] = svd(cim);
-
-m = moment(img,2);
-
 % Perform LoG filter to image for several levels
 % [h,w] - dimensions of image, n - number of levels in scale space
-% scale_space = zeros(h, w, levels);
 
 tic
 % for i = 1:levels
 % Generate a Laplacian of Gaussian filter / scale normalization
 LoG = fspecial('log', 2 * ceil(3 * sigma) + 1, sigma);
 % Filter the img with LoG
-scale_space = (imfilter(img, LoG, 'replicate', 'same').*(sigma^2)).^2;
-% Increase scale by a factor k
-sigma = sigma * k;
+scale_space = abs(imfilter(img, LoG, 'replicate', 'same').*(sigma^2));
 toc
 
 % suppressed_space = zeros(h,w,levels);
 suppressed_space = ordfilt2(scale_space,9,ones(3,3)); 
-maxima_space = max(suppressed_space, [], 3);
-% survive_space = zeros(h,w,levels);
-% for i = 1:levels
-survive_space = (maxima_space == scale_space).* img;
-%     survive_space = survive_space .* img;
-% end
+survive_space = suppressed_space;
 
-
-
-% Compute second moment of the image
+% Compute second moment matrix of the image
 
 rad_l = [];
 rad_s = [];
@@ -99,36 +90,30 @@ for i=1:size(Ix2,1)
     end
 end
 
+% Reshape
+rad_l = reshape(rad_l, [h, w]);
+rad_s = reshape(rad_s, [h, w]);
 
-
+cx = []; cy = []; rad1 = []; rad2 = [];
 for i=1:h
     for j=1:w
         if i == 1 && j == 1
             if survive_space(i,j) >= threshold
                 cx = j;
                 cy = i;
-                rad1 = rad_l(i,j);
-                rad2 = rad_s(i,j);
+                rad1 = rad_l(i,j) * sigma;
+                rad2 = rad_s(i,j) * sigma;
             end
         else
             if survive_space(i,j) >= threshold
                 cx = [cx, j];
                 cy = [cy, i];
-                rad1 = [rad1, rad_l(i,j)];
-                rad2 = [rad2, rad_s(i,j)];
+                rad1 = [rad1, rad_l(i,j)* sigma * 10];
+                rad2 = [rad2, rad_s(i,j)* sigma * 10];
             end
         end
     end
 end
 
-% [c,r] = find(survive_space >= threshold);
-% rad = sqrt(2) * initial_sigma;
-% cx = c;
-% cy = r;
-% 
-% 
-% rad1 = rad .* ones(size(r,1), 1);
-% rad2
 
-
-show_ellipse_circles(img, cy, cx, rad1, rad2, threshold, initial_sigma, k);
+show_ellipse_circles(img, cy', cx', rad1', rad2', threshold, initial_sigma, k);
