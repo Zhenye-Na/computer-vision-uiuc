@@ -7,7 +7,7 @@
 
 
 % Read in image and convert to double and then grayscale
-img = imread('../data/einstein.jpg');
+img = imread('../data/butterfly.jpg');
 img = rgb2gray(img);
 img = im2double(img);
 
@@ -15,7 +15,7 @@ img = im2double(img);
 % Image size
 [h, w] = size(img);
 % Define threshold
-threshold = 0.25;
+threshold = 0.05;
 % Increasing factor of k
 k = 1.25;
 % Define number of iterations
@@ -36,17 +36,17 @@ for i = 1:levels
     LoG = fspecial('log', 2 * floor(3*sigma) + 1, sigma) .* (sigma^2);
     if i == 1
         % Filter the img with LoG
-        scale_space(:,:,i) = abs(imfilter(img, LoG, 'same', 'replicate'));
+        scale_space(:,:,i) = (imfilter(img, LoG, 'same', 'replicate')).^2;
     else
         % Filter the img with LoG
         response = abs(imfilter(img_copy, LoG, 'same', 'replicate'));
-        scale_space(:,:,i) = imresize(response, [h w]);
+        scale_space(:,:,i) = imresize(response, [h w], 'bicubic');
     end
     % Increase scale by a factor k
     sigma = sigma * k;
     % hsize = 2 * ceil(sigma) + 1;
     % Downsample the img
-    img_copy = imresize(img, 1/(k^i));
+    img_copy = imresize(img, 1/(k^i), 'bicubic');
     
     
 %     % GENERATE GIF IN MATLAB

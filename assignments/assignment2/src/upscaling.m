@@ -16,7 +16,7 @@ warning('off', 'Images:initSize:adjustingMag');
 
 % clear all
 % Read in image and convert to double and then grayscale
-[img, map] = imread('../data/music.jpg');
+[img, map] = imread('../data/einstein.jpg');
 img = rgb2gray(img);
 img = im2double(img);
 
@@ -43,7 +43,7 @@ for i = 1:levels
     % Generate a Laplacian of Gaussian filter / scale normalization
     LoG = fspecial('log', 2 * ceil(3 * sigma) + 1, sigma);
     % Filter the img with LoG
-    scale_space(:,:,i) = abs(imfilter(img, LoG, 'replicate', 'same').*(sigma^2));
+    scale_space(:,:,i) = (imfilter(img, LoG, 'replicate', 'same').*(sigma^2)).^2;
     % Increase scale by a factor k
     sigma = sigma * k;
     % hsize = 2 * ceil(sigma) + 1;
@@ -78,7 +78,6 @@ end
 % Perform nonmaximum suppression in scale space and apply threshold
 % nonmax_space(:,:,num) = suppressed_space(:,:,num) .* (suppressed_space(:,:,num) >= threshold);
 
-maxima_space = zeros(h, w, levels);
 % for num = 1:levels
 %     if num == 1
 %         maxima_space(:,:,num) = max(suppressed_space(:, :, num:num + 1), [], 3);
@@ -90,6 +89,7 @@ maxima_space = zeros(h, w, levels);
 %     maxima_space(:,:,num) = ((maxima_space(:,:,num) == scale_space(:,:,num)) .* img);
 % end
 
+% maxima_space = zeros(h, w, levels);
 maxima_space = max(suppressed_space, [], 3);
 survive_space = zeros(h,w,levels);
 for i = 1:levels
