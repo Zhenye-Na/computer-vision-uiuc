@@ -16,151 +16,163 @@ warning('off', 'Images:initSize:adjustingMag');
 
 % clear all
 % Read in image and convert to double and then grayscale
-img = imread('../data/butterfly.jpg');
+img = imread('../data/sunflowers.jpg');
 img = rgb2gray(img);
 img = im2double(img);
 
-
+% Parameters initialization
 % Image size
 [h, w] = size(img);
 % Define threshold
-threshold = 0.;
+threshold = 0.0003;
 % Increasing factor of k
-k = 1.1;
+k = sqrt(2);
 % Define number of iterations
-levels = 12;
+levels = 4;
+octave = 3;
 % Define parameters for LoG
 initial_sigma = 2;
 sigma = 2;
 
 
-d = fspecial('gaussian', [3 3], sigma);
-% Generate filter space for DoG approach
-filter_space_temp = zeros(3,3,levels+1);
-for i = 1:levels+1
-    filter_space_temp(:,:,i) = fspecial('gaussian', [3 3], sigma);
+
+tic
+% First octave, original image size
+scale_space_temp = zeros(h, w ,levels);
+img_octave_1 = img;
+for i = 1:levels
+    filter = fspecial('gaussian', [3 3], sigma);
+    filter_response = abs(imfilter(img_octave_1, filter, 'same', 'replicate'));
+    scale_space_temp(:,:,i) = filter_response;
     sigma = sigma * k;
 end
 
-for i = 1:levels
-    filter_space(:,:,i) = filter_space_temp(:,:,i+1) - filter_space_temp(:,:,i);
+scale_space_1 = zeros(h, w, levels-1);
+for i = 2:levels
+    % Substract the previous octave
+    scale_space_1(:,:,i-1) = scale_space_temp(:,:,i) - scale_space_temp(:,:,i-1);
 end
 
-% Perform LoG filter to image for several levels
-% [h,w] - dimensions of image, n - number of levels in scale space
-scale_space = zeros(h, w, levels);
-tic
+
+
+sigma = initial_sigma * k^2;
+% Second octave, original image size
+img_octave_2 = imresize(img, 0.5);
+scale_space_temp = zeros(size(img_octave_2, 1), size(img_octave_2, 2) ,levels);
 for i = 1:levels
-%     Generate a Difference of Gaussian filter / scale normalization
-%     G1 = fspecial('gaussian', 2 * ceil(3 * sigma) + 1, k*sigma);
-%     G2 = fspecial('gaussian', 2 * ceil(3 * sigma) + 1, sigma);
-%     DioG = G1 - G2;
-    % Filter the img with LoG
-    scale_space(:,:,i) = abs(imfilter(img,  filter_space(:,:,i), 'replicate', 'same'));
-    % Increase scale by a factor k
-    % sigma = sigma * k;
-    % hsize = 2 * ceil(sigma) + 1;
+    filter = fspecial('gaussian', [3 3], sigma);
+    filter_response = abs(imfilter(img_octave_2, filter, 'same', 'replicate'));
+    scale_space_temp(:,:,i) = filter_response;
+    sigma = sigma * k;
+end
+
+scale_space_2 = zeros(size(img_octave_2, 1), size(img_octave_2, 2) ,levels-1);
+for i = 2:levels
+    % Substract the previous octave
+    scale_space_2(:,:,i-1) = scale_space_temp(:,:,i) - scale_space_temp(:,:,i-1);
+end
+
+
+
+sigma = initial_sigma * k^4;
+% Third octave, original image size
+img_octave_3 = imresize(img_octave_2, 0.5);
+scale_space_temp = zeros(size(img_octave_3, 1), size(img_octave_3, 2) ,levels);
+for i = 1:levels
+    filter = fspecial('gaussian', [3 3], sigma);
+    filter_response = abs(imfilter(img_octave_3, filter, 'same', 'replicate'));
+    scale_space_temp(:,:,i) = filter_response;
+    sigma = sigma * k;
+end
+
+scale_space_3 = zeros(size(img_octave_3, 1), size(img_octave_3, 2) ,levels-1);
+for i = 2:levels
+    % Substract the previous octave
+    scale_space_3(:,:,i-1) = scale_space_temp(:,:,i) - scale_space_temp(:,:,i-1);
 end
 toc
 
-% Perform nonmaximum suppression in each 2D slice
-suppressed_space = zeros(h,w,levels);
-for i = 1:levels
-    suppressed_space(:,:,i) = ordfilt2(scale_space(:,:,i),9,ones(3,3)); 
-end
 
 
-% Perform nonmaximum suppression in scale space and apply threshold
-% nonmax_space(:,:,num) = suppressed_space(:,:,num) .* (suppressed_space(:,:,num) >= threshold);
-
-survive_space = zeros(h,w,levels);
-maxima_space = zeros(h, w, levels);
-for num = 1:levels
-    if num == 1
-        maxima_space(:,:,num) = max(suppressed_space(:, :, num:num + 1), [], 3);
-    elseif num == levels
-        maxima_space(:,:,num) = max(suppressed_space(:, :, num - 1:num), [], 3);
-    else
-        maxima_space(:,:,num) = max(suppressed_space(:, :, num - 1:num + 1), [], 3);
-    end
-    survive_space(:,:,num) = ((maxima_space(:,:,num) == scale_space(:,:,num)) .* img);
-end
-
-% maxima_space = max(suppressed_space, [], 3);
-% survive_space = zeros(h,w,levels);
-% for i = 1:levels
-%     survive_space(:,:,i) = (maxima_space(:,:,i) == scale_space(:,:,i));
-%     survive_space(:,:,i) = survive_space(:,:,i) .* img;
-% end
-% survive_space = 
+% Perform Nonmaxima Suppression in octave 1
+BW1 = imregionalmax(scale_space_1,26);
+BW2 = imregionalmax(scale_space_2,26);
+BW3 = imregionalmax(scale_space_3,26);
 
 
 
-% Find all the coordinates and corresponding sigma
-% [row, col] = size(survive_space(:,:,1));
-% idx = 1;
-% cx = []; cy = []; rad = [];
-% for num = 1:levels
-%     for i = 1:h
-%         for j = 1:w
-%             if(survive_space(i,j,num) >= threshold) 
-%                 cx(idx) = i;
-%                 cy(idx) = j;
-%                 rad(idx) = sqrt(2) * initial_sigma^num; 
-%                 idx = idx + 1;
-%             end
-%         end
-%     end
-% end
+% Get the maxima element back
+Maxima_1 = BW1 .* scale_space_1;
+Maxima_2 = BW2 .* scale_space_2;
+Maxima_3 = BW3 .* scale_space_3;
 
 
 
-
-
-% % Find index and corresponding radius
-% cx = [];
-% cy = [];
-% rad = [];
-% 
-% maxima_space = zeros(h, w, levels);
-% indicator_space = zeros(h, w, levels);
-% survive_space = zeros(h, w, levels);
-% idx = 1;
-% for num = 1:levels
-%     % Check whether entries greater than threshold value
-%     indicator_space(:,:,num) = (maxima_space(:,:,num) >= threshold);
-%     survive_space(:,:,num) = indicator_space(:,:,num) .* maxima_space(:,:,num);
-%     
-%     [row, col] = size(survive_space(:,:,num));
-%     for i = 1:row
-%         for j = 1:col
-%             if (survive_space(i,j,num) ~= 0)
-%                 cx(idx) = i;
-%                 cy(idx) = j;
-%                 rad(idx)= sqrt(2) * initial_sigma^num;
-%                 idx = idx + 1;
-%             end
-%         end
-%     end
-%     
-% end
-
-% max_space = (maxima_space >= threshold);
-
-for num = 1:levels
-    [c,r] = find(survive_space(:,:,num) >= threshold);
+% Find x, y and radius of blobs
+for num = 1:levels-1
+    [c,r] = find(Maxima_1(:,:,num) >= threshold);
     rad = sqrt(2) * initial_sigma * k^(num-1);
     if num == 1
-        cx = c;
-        cy = r;
-        radius = rad .* ones(size(r,1), 1);
+        cx1 = c;
+        cy1 = r;
+        radius1 = rad .* ones(size(r,1), 1);
     else
-        cx = [cx; c];
-        cy = [cy; r];
-        radius = [radius; rad .* ones(size(r,1), 1)];
+        cx1 = [cx1; c];
+        cy1 = [cy1; r];
+        radius1 = [radius1; rad .* ones(size(r,1), 1)];
     end
 end
-%[c,r] = find(max_space);
 
 
-show_all_circles(img, cy, cx, radius, threshold, initial_sigma, k);
+for num = 1:levels-1
+    [c,r] = find(Maxima_2(:,:,num) >= threshold/2);
+    rad = sqrt(2) * initial_sigma * k^2 * k^(num-1);
+    if num == 1
+        cx2 = c;
+        cy2 = r;
+        radius2 = rad .* ones(size(r,1), 1);
+    else
+        cx2 = [cx2; c];
+        cy2 = [cy2; r];
+        radius2 = [radius2; rad .* ones(size(r,1), 1)];
+    end
+end
+
+
+for num = 1:levels-1
+    [c,r] = find(Maxima_3(:,:,num) >= threshold/8);
+    rad = sqrt(2) * initial_sigma * k^4 * k^(num-1);
+    if num == 1
+        cx3 = c;
+        cy3 = r;
+        radius3 = rad .* ones(size(r,1), 1);
+    else
+        cx3 = [cx3; c];
+        cy3 = [cy3; r];
+        radius3 = [radius3; rad .* ones(size(r,1), 1)];
+    end
+end
+
+
+
+% Select coordinates
+ccx = []; ccy = []; raad = [];
+for i = 1:size(cx1, 1)
+    x = cx1(i);
+    y = cy1(i);
+    
+    x2 = x/2;
+    x3 = x/4;
+    y2 = y/2;
+    y3 = y/4;
+
+
+    if ismember(x2, cx2) && ismember(y2, cy2) && ismember(x3, cx3) && ismember(y3, cy3)
+        ccx = [ccx; x];
+        ccy = [ccy; y];
+        raad = [raad; radius1(i)];
+    end
+end
+
+% 
+show_all_circles(img, ccy, ccx, raad, threshold, initial_sigma, k);

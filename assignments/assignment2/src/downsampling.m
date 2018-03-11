@@ -15,7 +15,7 @@ img = im2double(img);
 % Image size
 [h, w] = size(img);
 % Define threshold
-threshold = 0.4;
+threshold = 0.25;
 % Increasing factor of k
 k = 1.25;
 % Define number of iterations
@@ -47,6 +47,24 @@ for i = 1:levels
     % hsize = 2 * ceil(sigma) + 1;
     % Downsample the img
     img_copy = imresize(img, 1/(k^i));
+    
+    
+%     % GENERATE GIF IN MATLAB
+%     % Capture the plot as an image
+%     h = figure;
+%     imshow(scale_space(:,:,i), map);
+%     frame = getframe(h);
+%     im = frame2im(frame);
+%     [imind, cm] = rgb2ind(im, 256);
+%     
+%     % WRITE TO THE GIF FILE
+%     if i == 1
+%         imwrite(imind, cm, 'music.gif', 'gif','LoopCount',Inf,'DelayTime',1)
+%     else
+%         imwrite(imind, cm, 'music.gif', 'gif','WriteMode','append','DelayTime',1);
+%     end
+    
+    
 end
 toc
 
@@ -86,55 +104,8 @@ end
 
 
 % Find all the coordinates and corresponding sigma
-% [row, col] = size(survive_space(:,:,1));
-% idx = 1;
-% cx = []; cy = []; rad = [];
-% for num = 1:levels
-%     for i = 1:h
-%         for j = 1:w
-%             if(survive_space(i,j,num) >= threshold) 
-%                 cx(idx) = i;
-%                 cy(idx) = j;
-%                 rad(idx) = sqrt(2) * initial_sigma^num; 
-%                 idx = idx + 1;
-%             end
-%         end
-%     end
-% end
-
-
-
-
-
 % % Find index and corresponding radius
-% cx = [];
-% cy = [];
-% rad = [];
-% 
-% maxima_space = zeros(h, w, levels);
-% indicator_space = zeros(h, w, levels);
-% survive_space = zeros(h, w, levels);
-% idx = 1;
-% for num = 1:levels
-%     % Check whether entries greater than threshold value
-%     indicator_space(:,:,num) = (maxima_space(:,:,num) >= threshold);
-%     survive_space(:,:,num) = indicator_space(:,:,num) .* maxima_space(:,:,num);
-%     
-%     [row, col] = size(survive_space(:,:,num));
-%     for i = 1:row
-%         for j = 1:col
-%             if (survive_space(i,j,num) ~= 0)
-%                 cx(idx) = i;
-%                 cy(idx) = j;
-%                 rad(idx)= sqrt(2) * initial_sigma^num;
-%                 idx = idx + 1;
-%             end
-%         end
-%     end
-%     
-% end
 
-% max_space = (maxima_space >= threshold);
 
 for num = 1:levels
     [c,r] = find(survive_space(:,:,num) >= threshold);
@@ -152,4 +123,4 @@ end
 %[c,r] = find(max_space);
 
 
-show_all_circles(img, cy, cx, radius);
+show_all_circles(img, cy, cx, radius, threshold, initial_sigma, k);

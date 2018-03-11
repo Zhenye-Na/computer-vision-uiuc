@@ -2,7 +2,7 @@
 % Zhenye Na (zna2)
 % 3/6/2018
 
-% img filename: butterfly.jpg, einstein.jpg, fishes.jpg, Florist.jpg
+% img filename: butterfly.jpg, einstein.jpg, fishes.jpg, flower.jpg
 % frog.jpg, gta5.jpg, sunflowers.jpg, tnj.jpg, music.jpg
 
 % Turn off this warning "Warning: Image is too big to fit on screen; displaying at 33% "
@@ -16,7 +16,7 @@ warning('off', 'Images:initSize:adjustingMag');
 
 % clear all
 % Read in image and convert to double and then grayscale
-img = imread('../data/sunflowers.jpg');
+[img, map] = imread('../data/music.jpg');
 img = rgb2gray(img);
 img = im2double(img);
 
@@ -47,8 +47,26 @@ for i = 1:levels
     % Increase scale by a factor k
     sigma = sigma * k;
     % hsize = 2 * ceil(sigma) + 1;
+    
+%     % GENERATE GIF IN MATLAB
+%     % Capture the plot as an image
+%     h = figure;
+%     imshow(scale_space(:,:,i), map);
+%     frame = getframe(h);
+%     im = frame2im(frame);
+%     [imind, cm] = rgb2ind(im, 256);
+%     
+%     % WRITE TO THE GIF FILE
+%     if i == 1
+%         imwrite(imind, cm, 'music.gif', 'gif','LoopCount',Inf,'DelayTime',1)
+%     else
+%         imwrite(imind, cm, 'music.gif', 'gif','WriteMode','append','DelayTime',1);
+%     end
+
 end
 toc
+
+% figure;surf(LoG);title('filter size = %d, sigma = %d',2 * ceil(3 * sigma) + 1, sigma);
 
 % Perform nonmaximum suppression in each 2D slice
 suppressed_space = zeros(h,w,levels);
@@ -83,55 +101,8 @@ end
 
 
 % Find all the coordinates and corresponding sigma
-% [row, col] = size(survive_space(:,:,1));
-% idx = 1;
-% cx = []; cy = []; rad = [];
-% for num = 1:levels
-%     for i = 1:h
-%         for j = 1:w
-%             if(survive_space(i,j,num) >= threshold) 
-%                 cx(idx) = i;
-%                 cy(idx) = j;
-%                 rad(idx) = sqrt(2) * initial_sigma^num; 
-%                 idx = idx + 1;
-%             end
-%         end
-%     end
-% end
-
-
-
-
-
 % % Find index and corresponding radius
-% cx = [];
-% cy = [];
-% rad = [];
-% 
-% maxima_space = zeros(h, w, levels);
-% indicator_space = zeros(h, w, levels);
-% survive_space = zeros(h, w, levels);
-% idx = 1;
-% for num = 1:levels
-%     % Check whether entries greater than threshold value
-%     indicator_space(:,:,num) = (maxima_space(:,:,num) >= threshold);
-%     survive_space(:,:,num) = indicator_space(:,:,num) .* maxima_space(:,:,num);
-%     
-%     [row, col] = size(survive_space(:,:,num));
-%     for i = 1:row
-%         for j = 1:col
-%             if (survive_space(i,j,num) ~= 0)
-%                 cx(idx) = i;
-%                 cy(idx) = j;
-%                 rad(idx)= sqrt(2) * initial_sigma^num;
-%                 idx = idx + 1;
-%             end
-%         end
-%     end
-%     
-% end
 
-% max_space = (maxima_space >= threshold);
 
 for num = 1:levels
     [c,r] = find(survive_space(:,:,num) >= threshold);
