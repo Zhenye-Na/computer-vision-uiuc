@@ -76,14 +76,13 @@ Download full size images, matching points, camera matrices, and MATLAB sample c
 * In MATLAB, plotting in 3D can be done using the `plot3` command. Use the axis equal option to avoid automatic nonuniform scaling of the 3D space. In Python, use the `Axes3D` function from `mpl_toolkits.mplot3dplot3` library. To show the structure clearly, you may want to include snapshots from several viewpoints. In the past, some students have also been able to produce animated GIF's, and those have worked really well.
 
 ## Part 3: Single-View Geometry
-![](http://slazebni.cs.illinois.edu/spring18/assignment3/CSL.jpg)
-
-Adapted from Derek Hoiem by Tom Paine. Python code by Hsiao-Ching Chang
+![](http://slazebni.cs.illinois.edu/spring18/assignment3/CSL.jpg)  
+*Adapted from Derek Hoiem by Tom Paine. Python code by Hsiao-Ching Chang*
 
 1. You will be working with the above image of the North Quad (save it to get the full-resolution version). First, you need to estimate the three major orthogonal vanishing points. Use at least three manually selected lines to solve for each vanishing point. This MATLAB code and this Python code provide an interface for selecting and drawing the lines, but the code for computing the vanishing point needs to be inserted. For details on estimating vanishing points, see Derek Hoiem's book chapter (section 4). You should also refer to this chapter and the single-view metrology lecture for details on the subsequent steps. In your report, you should:
 	* Plot the VPs and the lines used to estimate them on the image plane using the provided code.
 	* Specify the VP pixel coordinates.
-	* Plot the ground horizon line and specify its parameters in the form a * x + b * y + c = 0. Normalize the parameters so that: a^2 + b^2 = 1.
+	* Plot the ground horizon line and specify its parameters in the form `a*x + b*y + c = 0`. Normalize the parameters so that: `a^2 + b^2 = 1`.
 
 1. Using the fact that the vanishing directions are orthogonal, solve for the focal length and optical center (principal point) of the camera. Show all your work.
 1. Compute the rotation matrix for the camera, setting the vertical vanishing point as the Y-direction, the right-most vanishing point as the X-direction, and the left-most vanishing point as the Z-direction.
