@@ -57,24 +57,25 @@ function [cim, r, c] = harris(im, sigma, thresh, radius, disp)
 
     % Alternate Harris corner measure used by some.  Suggested that
     % k=0.04 - I find this a bit arbitrary and unsatisfactory.
-%   cim = (Ix2.*Iy2 - Ixy.^2) - k*(Ix2 + Iy2).^2; 
+    %   cim = (Ix2.*Iy2 - Ixy.^2) - k*(Ix2 + Iy2).^2; 
 
     if nargin > 2   % We should perform nonmaximal suppression and threshold
-	
-	% Extract local maxima by performing a grey scale morphological
-	% dilation and then finding points in the corner strength image that
-	% match the dilated image and are also greater than the threshold.
-	sze = 2*radius+1;                   % Size of mask.
-	mx = ordfilt2(cim,sze^2,ones(sze)); % Grey-scale dilate.
-	cim = (cim==mx)&(cim>thresh);       % Find maxima.
-	
-	[r,c] = find(cim);                  % Find row,col coords.
-	
-	if nargin==5 & disp      % overlay corners on original image
-	    figure, imagesc(im), axis image, colormap(gray), hold on
-	    plot(c,r,'ys'), title('corners detected');
-	end
     
-    else  % leave cim as a corner strength image and make r and c empty.
-	r = []; c = [];
+    % Extract local maxima by performing a grey scale morphological
+    % dilation and then finding points in the corner strength image that
+    % match the dilated image and are also greater than the threshold.
+    sze = 2 * radius + 1;                   % Size of mask.
+    mx = ordfilt2(cim, sze^2, ones(sze)); % Grey-scale dilate.
+    cim = (cim == mx) & (cim > thresh);       % Find maxima.
+    
+    [r, c] = find(cim);                  % Find row,col coords.
+    
+        if nargin == 5 & disp      % overlay corners on original image
+            figure, imagesc(im), axis image, colormap(gray), hold on
+            plot(c, r, 'ys'), title('corners detected');
+        end
+    
+%     else  % leave cim as a corner strength image and make r and c empty.
+%         r = []; c = [];
     end
+end

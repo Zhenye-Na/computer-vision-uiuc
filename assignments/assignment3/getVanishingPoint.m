@@ -2,7 +2,7 @@ function vp = getVanishingPoint(im)
 % output vanishing point, input image
 
 figure(1), hold off, imagesc(im)
-hold on 
+hold on
 
 % Allow user to input line segments; compute centers, directions, lengths
 disp('Set at least two lines for vanishing point')
@@ -12,8 +12,8 @@ centers = zeros(3, 0);
 while 1
     disp(' ')
     disp('Click first point or q to stop')
-    [x1,y1,b] = ginput(1);    
-    if b=='q'        
+    [x1,y1,b] = ginput(1);
+    if b=='q'
         break;
     end
     disp('Click second point');
@@ -24,11 +24,11 @@ while 1
     centers(:, end+1) = [x1+x2 y1+y2 2]/2;
 end
 
-%% solve for vanishing point 
+%% solve for vanishing point
 % Insert code here to compute vp (3x1 vector in homogeneous coordinates)
 
 
-%% display 
+%% display
 hold on
 bx1 = min(1, vp(1)/vp(3))-10; bx2 = max(size(im,2), vp(1)/vp(3))+10;
 by1 = min(1, vp(2)/vp(3))-10; by2 = max(size(im,1), vp(2)/vp(3))+10;
@@ -46,5 +46,5 @@ for k = 1:size(lines, 2)
 end
 plot(vp(1)/vp(3), vp(2)/vp(3), '*r')
 axis image
-axis([bx1 bx2 by1 by2]); 
+axis([bx1 bx2 by1 by2]);
 
