@@ -28,11 +28,16 @@ pause;
 %% display second image with epipolar lines reprojected 
 %% from the first image
 %%
-
+method = 'normalized';
 % first, fit fundamental matrix to the matches
-F = fit_fundamental(matches); % this is a function that you should write
-L = (F * [matches(:,1:2) ones(N,1)]')'; % transform points from 
-% the first image to get epipolar lines in the second image
+F = fit_fundamental(matches, method); % this is a function that you should write
+
+%%
+% F = estimate_fundamental(I1, I2);
+
+%%
+% transform points from the first image to get epipolar lines in the second image
+L = (F * [matches(:,1:2) ones(N,1)]')'; 
 
 % find points on epipolar lines L closest to matches(:,3:4)
 L = L ./ repmat(sqrt(L(:,1).^2 + L(:,2).^2), 1, 3); % rescale the line
