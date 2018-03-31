@@ -1,4 +1,4 @@
-% function image_stitching(im_left, im_right)
+function image_stitching(im_left, im_right)
 
     % Turn off "Warning: Image is too big to fit on screen; displaying at ** "
     warning('off', 'Images:initSize:adjustingMag');
@@ -108,7 +108,9 @@
 
 
     [inliers, num_of_inliers, mean_of_residual, H] = RANSAC(250, 2, matches);
-
+    
+    fprintf('mean_of_residual: %f', mean_of_residual);
+    
     final_matches = [];
     for i = 1:num_of_inliers
         final_matches = [final_matches; matches(inliers(i), :)];
@@ -150,5 +152,5 @@
     figure; showMatchedFeatures(img_left_rgb, img_right_rgb, final_matches(:, 2:-1:1), final_matches(:, 4:-1:3));
 
 
-% end
+end
 

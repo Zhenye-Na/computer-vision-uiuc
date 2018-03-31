@@ -3,8 +3,8 @@
 % Using Computer Vision Toolbox.
 
 %% Read the stereo images.
-I1 = rgb2gray(imread('part1-data/uttower_left.jpg'));
-I2 = rgb2gray(imread('part1-data/uttower_right.jpg'));
+I1 = rgb2gray(imread('./data/uttower/uttower_left.jpg'));
+I2 = rgb2gray(imread('./data/uttower/uttower_right.jpg'));
 
 %% Find the corners.
 points1 = detectHarrisFeatures(I1);
