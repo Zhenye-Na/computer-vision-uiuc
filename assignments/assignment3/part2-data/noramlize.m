@@ -1,15 +1,20 @@
-function [matches, T] = noramlize(matches)
+function [tran_cord, norm_matches] = noramlize(matches)
     
     avg = mean(matches, 1);
     
-    matches(:,1) = matches(:,1) - avg(1);
-    matches(:,2) = matches(:,2) - avg(2);
+    offset = eye(3);
+    offset(1, 3) = -avg(1);
+    offset(2, 3) = -avg(2);
     
-    dist = sqrt(matches(:,1).^2 + matches(:,2).^2);
-    std = mean(dist);
+    X = max(abs(matches(:, 1)));
+    Y = max(abs(matches(:, 2)));
     
-    scale = 2/std;
-    matches = matches * scale;
+    scale = eye(3);
+    scale(1, 1) = 1 / X;
+    scale(2, 2) = 1 / Y;
     
-    T = [scale, 0, -scale * avg(1); 0, scale, -scale * avg(2); 0, 0, 1]; 
+    tran_cord = scale * offset;
+    norm_matches = (tran_cord * matches')';
+    
+    
 end

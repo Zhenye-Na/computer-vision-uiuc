@@ -1,14 +1,15 @@
-function [inliers, num_of_inliers, mean_of_residual, H1] = RANSAC(iterations, threshold, matches)
+function [inliers, num_of_inliers, mean_of_residual] = RANSAC(matches)
 
-    threshold = 2;
-    iterations = 200;
+    threshold = 4;
+    iterations = 300;
     num_of_matches = size(matches, 1);
+
     % Use four matches to initialize the homography in each iteration. 
-    num_of_samples = 4;
+    num_of_samples = 5;
     n = 1;
 
     while(n < iterations)
-        if num_of_samples == 4
+        if num_of_samples == 5
             inliers = randsample(num_of_matches, num_of_samples);
         end
         A = [];
@@ -20,15 +21,15 @@ function [inliers, num_of_inliers, mean_of_residual, H1] = RANSAC(iterations, th
         end
         
         % Homography fitting calls for homogeneous least squares.
-        [U, S, V] = svd(A);
+        [~, ~, V] = svd(A);
         H = V(:, end);
         
-        H1 = reshape(H, 3, 3);
+        H_p = reshape(H, 3, 3);
         num_of_inliers = 0;
         inliers = [];
         residual = [];
         for i = 1:num_of_matches
-            X =  H1' * [matches(i, 2); matches(i, 1); 1];
+            X =  H_p' * [matches(i, 2); matches(i, 1); 1];
             x = X(1) / X(3);
             y = X(2) / X(3);
             if (dist2([x, y], [matches(i, 4), matches(i, 3)]) < threshold)
@@ -38,8 +39,8 @@ function [inliers, num_of_inliers, mean_of_residual, H1] = RANSAC(iterations, th
             end
         end
 
-        if (num_of_inliers < 10)
-            num_of_samples = 4;
+        if (num_of_inliers < 8)
+            num_of_samples = 5;
         else
            num_of_samples = num_of_inliers;
            n = n + 1;
@@ -48,8 +49,7 @@ function [inliers, num_of_inliers, mean_of_residual, H1] = RANSAC(iterations, th
 
     mean_of_residual = mean(residual);
 
-
-
+    num_of_inliers
 
 
 end
