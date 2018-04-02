@@ -49,8 +49,8 @@ disp('Click for target object ... first bottom then top please ...')
 
 plot([x1 x2], [y1 y2], 'g');
 
-b = [x1 y1 1]
-r = [x2 y2 1]
+b = [x1 y1 1];
+r = [x2 y2 1];
 
 % compute target object height
 img_height_tar = y2 - y1;
@@ -58,7 +58,7 @@ img_height_tar = y2 - y1;
 %% compute line bb0, vt0
 bottom_line = real(cross(b0', b'));
 v = real(cross(bottom_line, horizon));
-v = v / v(3)
+v = v / v(3);
 
 top_line = real(cross(v', t0'));
 vertical_line = real(cross(r', b'));
@@ -75,7 +75,6 @@ plot([b(1) v(1)], [b(2) v(2)], 'm');
 
 %% Compute height of target object
 
-norm(t - b)
 left_up = norm(t - b) * norm(vp_3' - r);
 left_down = norm(r - b) * norm(vp_3' - t);
 H = height_ref;
