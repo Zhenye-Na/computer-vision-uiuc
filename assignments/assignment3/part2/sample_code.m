@@ -8,6 +8,7 @@ matches = load('house_matches.txt');
 % I1 = imread('library1.jpg');
 % I2 = imread('library2.jpg');
 % matches = load('library_matches.txt');
+
 % this is a N x 4 file where the first two numbers of each row
 % are coordinates of corners in the first image and the last two
 % are coordinates of corresponding corners in the second image: 
@@ -66,10 +67,3 @@ imshow(I2); hold on;
 plot(matches(:,3), matches(:,4), '+r');
 line([matches(:,3) closest_pt(:,1)]', [matches(:,4) closest_pt(:,2)]', 'Color', 'r');
 line([pt1(:,1) pt2(:,1)]', [pt1(:,2) pt2(:,2)]', 'Color', 'g');
-
-
-%% Triagulation
-triangulate('library1_camera.txt', 'library2_camera.txt', 'library_matches.txt');
-%triangulate('house1_camera.txt', 'house2_camera.txt', 'house_matches.txt');
-
-
