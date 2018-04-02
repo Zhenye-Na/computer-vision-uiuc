@@ -1,7 +1,7 @@
-function vp = getVanishingPoint(im)
+%function vp = getVanishingPoint(im)
     % output vanishing point, input image
 
-    % im = imread('CSL.jpg');
+    im = imread('CSL.jpg');
 
     figure(1), hold off, imagesc(im)
     hold on
@@ -49,9 +49,7 @@ function vp = getVanishingPoint(im)
         plot([pt1(1) pt2(1)], [pt1(2) pt2(2)], 'g', 'Linewidth', 1);
     end
 
-    coord = [vp(1)/vp(3), vp(2)/vp(3)];
+    coord = [vp(1)/vp(3), vp(2)/vp(3)]
     plot(vp(1)/vp(3), vp(2)/vp(3), '*r')
     axis image
     axis([bx1 bx2 by1 by2]);
-
-end

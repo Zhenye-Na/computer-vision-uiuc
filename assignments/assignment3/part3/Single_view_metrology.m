@@ -1,4 +1,4 @@
-function singleViewMetrology
+% function singleViewMetrology
 
     %input = imread('CSL.jpg', 'jpg');
     input = imread('CSL.jpg', 'jpg');
@@ -8,7 +8,7 @@ function singleViewMetrology
     vp_2 = [1371 230 1]';
     vp_3 = [503 4867 1]';
     
-    figure; imshow(input);
+    figure(1); imshow(input);
     %imagesc(input);
     hold on;
     plot(vp_1(1), vp_1(2), 'r*');
@@ -27,34 +27,34 @@ function singleViewMetrology
     length = sqrt(horizon(1)^2 + horizon(2)^2);
     horizon = horizon/length;
 
-    %camera calibration
-    syms u v;
-    [u_sol, v_sol] = solve(...
-                        -u*(vp_2(1)+vp_3(1)) + vp_2(1)*vp_3(1) + -v*(vp_2(2)+vp_3(2)) + vp_2(2)*vp_3(2) == ...
-                        -u*(vp_3(1)+vp_1(1)) + vp_3(1)*vp_1(1) + -v*(vp_3(2)+vp_1(2)) + vp_3(2)*vp_1(2),...
-                        -u*(vp_1(1)+vp_2(1)) + vp_1(1)*vp_2(1) + -v*(vp_1(2)+vp_2(2)) + vp_1(2)*vp_2(2) == ...
-                        -u*(vp_3(1)+vp_1(1)) + vp_3(1)*vp_1(1) + -v*(vp_3(2)+vp_1(2)) + vp_3(2)*vp_1(2));
-    syms f;
-    [f_sol] = solve((u_sol - vp_2(1))*(u_sol - vp_3(1)) + (v_sol - vp_2(2))*(v_sol - vp_3(2)) + f*f == 0);
-
-    f = double(f_sol);
-    f = f(1);
-    u = double(u_sol);
-    v = double(v_sol);
-
-    K = [f      0       u;
-         0      f       v;
-         0      0       1];                
-    %rotation matrix                
-    r_x = inv(K)*vp_1;
-    r_y = inv(K)*vp_2;
-    r_z = inv(K)*vp_3;
-
-    r_x = r_x / sqrt(sumsqr(r_x));
-    r_y = r_y / sqrt(sumsqr(r_y));
-    r_z = r_z / sqrt(sumsqr(r_z));
-
-    R = [r_x r_y r_z]; 
+%     %camera calibration
+%     syms u v;
+%     [u_sol, v_sol] = solve(...
+%                         -u*(vp_2(1)+vp_3(1)) + vp_2(1)*vp_3(1) + -v*(vp_2(2)+vp_3(2)) + vp_2(2)*vp_3(2) == ...
+%                         -u*(vp_3(1)+vp_1(1)) + vp_3(1)*vp_1(1) + -v*(vp_3(2)+vp_1(2)) + vp_3(2)*vp_1(2),...
+%                         -u*(vp_1(1)+vp_2(1)) + vp_1(1)*vp_2(1) + -v*(vp_1(2)+vp_2(2)) + vp_1(2)*vp_2(2) == ...
+%                         -u*(vp_3(1)+vp_1(1)) + vp_3(1)*vp_1(1) + -v*(vp_3(2)+vp_1(2)) + vp_3(2)*vp_1(2));
+%     syms f;
+%     [f_sol] = solve((u_sol - vp_2(1))*(u_sol - vp_3(1)) + (v_sol - vp_2(2))*(v_sol - vp_3(2)) + f*f == 0);
+% 
+%     f = double(f_sol);
+%     f = f(1);
+%     u = double(u_sol);
+%     v = double(v_sol);
+% 
+%     K = [f      0       u;
+%          0      f       v;
+%          0      0       1];                
+%     %rotation matrix                
+%     r_x = inv(K)*vp_1;
+%     r_y = inv(K)*vp_2;
+%     r_z = inv(K)*vp_3;
+% 
+%     r_x = r_x / sqrt(sumsqr(r_x));
+%     r_y = r_y / sqrt(sumsqr(r_y));
+%     r_z = r_z / sqrt(sumsqr(r_z));
+% 
+%     R = [r_x r_y r_z]; 
 
     % measure height
     figure(3);
@@ -67,7 +67,7 @@ function singleViewMetrology
     t0 = [x2 y2 1];
 
     % put height spec here.
-    H = 100;
+    H = 167.64;
 
     %reference_points = load('reference_points.mat');
     %reference_points = reference_points.reference_points;
@@ -99,11 +99,11 @@ function singleViewMetrology
     plot(reference_points(3,4), reference_points(3,5),  'g*');
     %}
     for i = 1:size(reference_points, 1)
-        b = reference_points(i, 1:3);
-        r = reference_points(i, 4:6);
+        b = reference_points(i, 1:3)
+        r = reference_points(i, 4:6)
         line1 = real(cross(b0', b'));
         v = real(cross(line1, horizon));
-        v = v/v(3);
+        v = v/v(3)
 
         line2 = real(cross(v', t0'));
         vertical_line = real(cross(r', b'));
@@ -125,7 +125,7 @@ function singleViewMetrology
         axis equal;
         axis image;
 
-        height(i) = H*sqrt(sumsqr(r-b))*sqrt(sumsqr(vp_1-t))/...
-            sqrt(sumsqr(t-b))/sqrt(sumsqr(vp_1-r))
+        height(i) = H*sqrt(sumsqr(r-b))*sqrt(sumsqr(vp_3'-t))/...
+            sqrt(sumsqr(t-b))/sqrt(sumsqr(vp_3'-r))
     end
-end
+% end
