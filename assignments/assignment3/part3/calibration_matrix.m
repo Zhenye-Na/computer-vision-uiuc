@@ -1,0 +1,48 @@
+%% Vanishing Points
+vp_1 = [-202 215 1]';
+vp_2 = [1371 230 1]';
+vp_3 = [503 4867 1]';
+
+%% Solve for matrix K
+
+% First compute inv(K')
+% Compute v_i' * inv(K') * K * v_j
+% Use three vanishing point to compute
+
+syms u v f;
+
+
+eqns = [-u*(vp_2(1)+vp_3(1)) + vp_2(1)*vp_3(1) + -v*(vp_2(2)+vp_3(2)) + vp_2(2)*vp_3(2) == ...
+        -u*(vp_3(1)+vp_1(1)) + vp_3(1)*vp_1(1) + -v*(vp_3(2)+vp_1(2)) + vp_3(2)*vp_1(2),...
+        -u*(vp_1(1)+vp_2(1)) + vp_1(1)*vp_2(1) + -v*(vp_1(2)+vp_2(2)) + vp_1(2)*vp_2(2) == ...
+        -u*(vp_3(1)+vp_1(1)) + vp_3(1)*vp_1(1) + -v*(vp_3(2)+vp_1(2)) + vp_3(2)*vp_1(2)];
+
+% eqns = [vp_2(1) * (vp_1(1) - u * vp_1(1)) + vp_2(2) * (vp_1(2) - v * (vp_1(2))) +  vp_2(3) * (vp_1(3) + u * (1/f * vp_1(1) - u/f * vp_1(1)) + v * (1/f * vp_1(2) - v/f * vp_1(2))) == 0, ...    
+%         vp_3(1) * (vp_1(1) - u * vp_1(1)) + vp_3(2) * (vp_1(2) - v * (vp_1(2))) +  vp_3(3) * (vp_1(3) + u * (1/f * vp_1(1) - u/f * vp_1(1)) + v * (1/f * vp_1(2) - v/f * vp_1(2))) == 0, ...
+%         vp_3(1) * (vp_2(1) - u * vp_2(1)) + vp_3(2) * (vp_2(2) - v * (vp_2(2))) +  vp_3(3) * (vp_2(3) + u * (1/f * vp_2(1) - u/f * vp_2(1)) + v * (1/f * vp_2(2) - v/f * vp_2(2))) == 0];
+
+vars = [u v f];
+
+[sol_u, sol_v, sol_f] = solve(eqns, vars);
+
+f = double(sol_f);
+f = f(1);
+u = double(sol_u);
+v = double(sol_v);
+
+%% Calibration matrix
+K = [f, 0, u(1);
+     0, f, v(1);
+     0, 0, 1]
+
+%% Rotation matrix                
+
+r_x = K\vp_1;
+r_y = K\vp_2;
+r_z = K\vp_3;
+
+r_x = r_x / sqrt(sumsqr(r_x));
+r_y = r_y / sqrt(sumsqr(r_y));
+r_z = r_z / sqrt(sumsqr(r_z));
+
+R = [r_x r_y r_z]
