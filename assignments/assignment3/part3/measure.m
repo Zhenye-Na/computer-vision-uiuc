@@ -38,8 +38,9 @@ b0 = [x1 y1 1];
 t0 = [x2 y2 1];
 
 % compute reference object height
-height_ref = 167.64;
-% 5 feet, 6 inches = 167.64 cm
+height_ref = 182.88;
+% 5 feet, 6 inches = 167.64cm
+% 6 feet = 182.88cm
 
 %% Record target object
 disp(' ')
