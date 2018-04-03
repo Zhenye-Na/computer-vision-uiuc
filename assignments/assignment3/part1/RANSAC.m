@@ -1,6 +1,6 @@
-function [inliers, num_of_inliers, mean_of_residual, H1] = RANSAC(matches)
+function [inliers, num_of_inliers, mean_of_residual, H_re] = RANSAC(matches)
 
-    threshold = 2;
+    threshold = 5;
     iterations = 250;
     num_of_matches = size(matches, 1);
 
@@ -23,13 +23,13 @@ function [inliers, num_of_inliers, mean_of_residual, H1] = RANSAC(matches)
         % Homography fitting calls for homogeneous least squares.
         [~, ~, V] = svd(A);
         H = V(:, end);
+        H_re = reshape(H, 3, 3);
         
-        H1 = reshape(H, 3, 3);
         num_of_inliers = 0;
         inliers = [];
         residual = [];
         for i = 1:num_of_matches
-            X =  H1' * [matches(i, 2); matches(i, 1); 1];
+            X =  H_re' * [matches(i, 2); matches(i, 1); 1];
             x = X(1) / X(3);
             y = X(2) / X(3);
             if (dist2([x, y], [matches(i, 4), matches(i, 3)]) < threshold)

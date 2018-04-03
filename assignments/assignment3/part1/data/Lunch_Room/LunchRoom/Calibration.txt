@@ -1,0 +1,15 @@
+# Calibration results generated with 3DF Lapyx v. 1.2
+
+--- Camera Information ---
+Camera Make: Canon
+Camera Model: Canon EOS 70D
+Image Resolution: 5472 x 3648 pixels
+
+--- Calibration Results ---
+Focals (pixels) - Fx: 2569.31 Fy: 2566.96
+Optical center - Cx: 2755.64 Cy: 1788.42
+Radial distortion (Brown's Model)
+K1: -0.0484573 K2: 0.0100024 K3: 0
+P1: 0.00050623 P2: 0.000603611
+Skew: 0
+Mean Square Reprojection Error: 0.957537 pixels
