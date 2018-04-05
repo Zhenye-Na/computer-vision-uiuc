@@ -1,3 +1,7 @@
+clc;
+clear all;
+
+
 %%
 %% load images and match files for the first example
 %%
@@ -20,32 +24,40 @@ matches = load('house_matches.txt');
 %% this code is to help you visualize the matches, you don't need
 %% to use it to produce the results for the assignment
 %%
-figure;
-imshow([I1 I2]); hold on;
-plot(matches(:,1), matches(:,2), '+r');
-plot(matches(:,3)+size(I1,2), matches(:,4), '+r');
-line([matches(:,1) matches(:,3) + size(I1,2)]', matches(:,[2 4])', 'Color', 'r');
-pause;
-
+% figure; imshow([I1 I2]);
+% hold on;
+% plot(matches(:,1), matches(:,2), 'oc');
+% plot(matches(:,3)+size(I1,2), matches(:,4), 'oc');
+% line([matches(:,1) matches(:,3) + size(I1,2)]', matches(:,[2 4])', 'Color', 'r');
+% pause;
 %%
 %% display second image with epipolar lines reprojected 
 %% from the first image
 %%
 
+% Methods of getting Fundamental Matrix
 fundamental_method = 'estimate'; % estimate, fit
 
 if strcmp(fundamental_method, 'fit')
-    matches = load('library_matches.txt'); 
+    % matches = load('library_matches.txt'); 
     % matches = load('house_matches.txt'); 
     N = size(matches, 1);
-    method = 'unnormalized';
+    method = 'unnormalized'; % normalized, unnormalized
     F = fit_fundamental(matches, method); % this is a function that you should write
-else strcmp(fundamental_method, 'estimate')
+elseif strcmp(fundamental_method, 'estimate')
     matches = estimate_fundamental(I1, I2);
     N = size(matches, 1);
     method = 'normalized';
     F = fit_fundamental(matches, method);
 end
+
+%% 
+% figure; imshow([I1 I2]);
+% hold on;
+% plot(matches(:,1), matches(:,2), 'oc');
+% plot(matches(:,3)+size(I1,2), matches(:,4), 'oc');
+% line([matches(:,1) matches(:,3) + size(I1,2)]', matches(:,[2 4])', 'Color', 'r');
+% pause;
 
 %%
 % transform points from the first image to get epipolar lines in the second image
@@ -62,8 +74,9 @@ pt2 = closest_pt + [L(:,2) -L(:,1)] * 10;
 
 % display points and segments of corresponding epipolar lines
 clf;
-figure;
+% figure;
 imshow(I2); hold on;
-plot(matches(:,3), matches(:,4), '+r');
+plot(matches(:,3), matches(:,4), '*y');
 line([matches(:,3) closest_pt(:,1)]', [matches(:,4) closest_pt(:,2)]', 'Color', 'r');
 line([pt1(:,1) pt2(:,1)]', [pt1(:,2) pt2(:,2)]', 'Color', 'g');
+

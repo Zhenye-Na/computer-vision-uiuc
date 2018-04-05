@@ -1,55 +1,48 @@
-function [inliers, num_of_inliers, mean_of_residual] = RANSAC(matches)
+function [tmp_matches, num_of_inliers, mean_of_residual] = RANSAC(matches)
 
-    iterations = 300;
+    iterations = 100;
     num_of_matches = size(matches, 1);
 
     % Use four matches to initialize the homography in each iteration. 
-    num_of_samples = 5;
+    num_of_samples = 6;
     n = 1;
 
     while(n < iterations)
-        if num_of_samples == 5
+        if num_of_samples == 6
             inliers = randsample(num_of_matches, num_of_samples);
         end
-        A = [];
-        for i = 1:num_of_samples
-            current_match = matches(inliers(i), :);
-            xT = [current_match(2), current_match(1), 1];
-            A = [A; xT*0, xT, xT*(-current_match(3))];
-            A = [A; xT, xT*0, xT*(-current_match(4))];
+        tmp_matches = [];
+        for i = 1:size(inliers, 1)
+            tmp_matches = [tmp_matches; matches(inliers(i), :)];
         end
         
-        % Homography fitting calls for homogeneous least squares.
-        [~, ~, V] = svd(A);
-        H = V(:, end);
-        
-        H_p = reshape(H, 3, 3);
-        num_of_inliers = 0;
+        F = fit_fundamental(tmp_matches, 'normalized');
+        L = (F * [matches(:,1:2) ones(num_of_matches,1)]')'; 
+        L = L ./ repmat(sqrt(L(:,1).^2 + L(:,2).^2), 1, 3);
+        pt_line_dist = sum(L .* [matches(:,3:4) ones(num_of_matches,1)],2);
+        closest_pt = matches(:,3:4) - L(:,1:2) .* repmat(pt_line_dist, 1, 2);
+
+
         inliers = [];
         residual = [];
-
         for i = 1:num_of_matches
-            X =  H_p' * [matches(i, 2); matches(i, 1); 1];
-            x = X(1) / X(3);
-            y = X(2) / X(3);
-            if (dist2([x, y], [matches(i, 4), matches(i, 3)]) < 4)
+            distance_pts = sqrt(dist2(closest_pt(i,:), matches(i, 3:4)));
+            if(distance_pts < 30)
                 inliers = [inliers; i];
-                residual = [residual; dist2([x,y], [matches(i, 4), matches(i, 3)])];
-                num_of_inliers = num_of_inliers + 1;
+                residual = [residual; distance_pts];
             end
         end
 
-        if (num_of_inliers < 8)
-            num_of_samples = 5;
+
+        if (size(inliers, 1) < 10)
+            num_of_samples = 6;
         else
-           num_of_samples = num_of_inliers;
+           num_of_samples = size(inliers, 1);
            n = n + 1;
         end
     end
 
     mean_of_residual = mean(residual);
-
-    num_of_inliers
-
+    num_of_inliers = size(inliers, 1); 
 
 end

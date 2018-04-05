@@ -5,16 +5,16 @@ function F = fit_fundamental(matches, method)
     matches_2 = c2homo(matches(:, 3:4));
     
     if strcmp(method, 'normalized')
-        fprintf('Normalization Method \n');
+        % fprintf('Normalization Method \n');
         [tran_cord_1, norm_matches_1] = noramlize(matches_1);
         [tran_cord_2, norm_matches_2] = noramlize(matches_2);
         matches_1 = norm_matches_1;
         matches_2 = norm_matches_2;
     elseif strcmp(method, 'unnormalized')
-        fprintf('Unnormalization Method \n');
+        % fprintf('Unnormalization Method \n');
     else
-        fprintf('No such method, do you wanna create this? ... \n');
-        quit cancel;
+        % fprintf('No such method, do you wanna create this? ... \n');
+        % quit cancel;
     end
     
     num_of_matches = size(matches, 1);
@@ -31,7 +31,7 @@ function F = fit_fundamental(matches, method)
     F = reshape(F, 3, 3);
     
     [U, S, V] = svd(F);
-    S(3, 3) = 0; % rank 2 constraint
+    S(end) = 0; % rank 2 constraint
     F = U * S * V';
 
     if strcmp(method, 'normalized')
@@ -45,5 +45,5 @@ function F = fit_fundamental(matches, method)
         residual = [residual; abs([matches(i, 3),matches(i, 4), 1] * X)];
     end 
     
-    fprintf('mean_of_residual: %f \n', mean(residual));
+    % fprintf('mean_of_residual: %f \n', mean(residual));
 end
