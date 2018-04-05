@@ -11,7 +11,8 @@ function panorama = image_stitching(im_left, im_right)
     % Input images
     % im_left = 'data/uttower/uttower_left.jpg';
     % im_right = 'data/uttower/uttower_right.jpg';
-
+    im_left = '/Users/macbookpro/Downloads/WechatIMG3.jpeg';
+    im_right = '/Users/macbookpro/Downloads/WechatIMG4.jpeg';
 
     %% 1. Load both images, convert to double and to grayscale.
 
