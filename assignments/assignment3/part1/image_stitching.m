@@ -11,8 +11,8 @@ function panorama = image_stitching(im_left, im_right)
     % Input images
     % im_left = 'data/uttower/uttower_left.jpg';
     % im_right = 'data/uttower/uttower_right.jpg';
-    im_left = '/Users/macbookpro/Downloads/WechatIMG3.jpeg';
-    im_right = '/Users/macbookpro/Downloads/WechatIMG4.jpeg';
+    % im_left = '/Users/macbookpro/Downloads/WechatIMG3.jpeg';
+    % im_right = '/Users/macbookpro/Downloads/WechatIMG4.jpeg';
 
     %% 1. Load both images, convert to double and to grayscale.
 
@@ -31,7 +31,7 @@ function panorama = image_stitching(im_left, im_right)
         img_right = im2double(img_right_rgb);
     end
 
-    %% filtering (optional)
+    %% Filtering and Edge detection (optional)
 
     filtering = 0;
     if filtering
@@ -64,13 +64,10 @@ function panorama = image_stitching(im_left, im_right)
             img_right_edge = im2double(img_right_edge);
         end
         
-        
         figure; imshow(img_left_edge);
         figure; imshow(img_right_edge);
         
     end
-    
-    
     
     %% 2. Detect feature points in both images.
 

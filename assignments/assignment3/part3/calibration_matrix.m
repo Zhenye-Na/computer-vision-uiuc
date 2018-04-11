@@ -35,14 +35,17 @@ K = [f, 0, u(1);
      0, f, v(1);
      0, 0, 1]
 
+%%  
+% K= [-774.3358 0 546.0258; 0 -774.3358 355.0230; 0 0 1.0000]; 
+
 %% Rotation matrix                
 
-r_x = K \ vp_1;
-r_y = K \ vp_2;
-r_z = K \ vp_3;
+r_z = K \ vp_1;
+r_x = K \ vp_2;
+r_y = K \ vp_3;
 
-r_x = r_x / sqrt(sumsqr(r_x));
-r_y = r_y / sqrt(sumsqr(r_y));
-r_z = r_z / sqrt(sumsqr(r_z));
+r_x = r_x / norm(r_x);
+r_y = r_y / norm(r_y);
+r_z = r_z / norm(r_z);
 
 R = [r_x r_y r_z]

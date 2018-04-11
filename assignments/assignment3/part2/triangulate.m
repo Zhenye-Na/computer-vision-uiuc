@@ -1,15 +1,15 @@
-% function  triangulate(P1_dir, P2_dir, matches_dir)
+function  triangulate(P1_dir, P2_dir, matches_dir)
 
-    P1 = load('library1_camera.txt');
-    P2 = load('library2_camera.txt');
-    matches = load('library_matches.txt'); 
+%     P1 = load('library1_camera.txt');
+%     P2 = load('library2_camera.txt');
+%     matches = load('library_matches.txt'); 
 %     P1 = load('house1_camera.txt');
 %     P2 = load('house2_camera.txt');
 %     matches = load('house_matches.txt'); 
 
-    % P1 = load(P1_dir);
-    % P2 = load(P2_dir);
-    % matches = load(matches_dir);
+    P1 = load(P1_dir);
+    P2 = load(P2_dir);
+    matches = load(matches_dir);
     
     num_of_matches = size(matches,1);
 
@@ -59,4 +59,4 @@
     fprintf('residual_1: %f \n', residual_1);
     fprintf('residual_2: %f \n', residual_2);
 
-% end
+end

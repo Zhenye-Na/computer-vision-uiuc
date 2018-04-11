@@ -6,12 +6,12 @@ clear all;
 %% load images and match files for the first example
 %%
 
-I1 = imread('house1.jpg');
-I2 = imread('house2.jpg');
-matches = load('house_matches.txt');
-% I1 = imread('library1.jpg');
-% I2 = imread('library2.jpg');
-% matches = load('library_matches.txt');
+% I1 = imread('house1.jpg');
+% I2 = imread('house2.jpg');
+% matches = load('house_matches.txt');
+I1 = imread('library1.jpg');
+I2 = imread('library2.jpg');
+matches = load('library_matches.txt');
 
 % this is a N x 4 file where the first two numbers of each row
 % are coordinates of corners in the first image and the last two
@@ -36,13 +36,13 @@ matches = load('house_matches.txt');
 %%
 
 % Methods of getting Fundamental Matrix
-fundamental_method = 'estimate'; % estimate, fit
+fundamental_method = 'fit'; % estimate, fit
 
 if strcmp(fundamental_method, 'fit')
     % matches = load('library_matches.txt'); 
     % matches = load('house_matches.txt'); 
     N = size(matches, 1);
-    method = 'unnormalized'; % normalized, unnormalized
+    method = 'normalized'; % normalized, unnormalized
     F = fit_fundamental(matches, method); % this is a function that you should write
 elseif strcmp(fundamental_method, 'estimate')
     matches = estimate_fundamental(I1, I2);
