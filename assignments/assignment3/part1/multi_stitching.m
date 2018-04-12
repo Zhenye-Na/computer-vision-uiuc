@@ -14,6 +14,7 @@
 panorama_1 = image_stitching(im_1, im_2);
 
 
+%% Write to file
 % imwrite(panorama_1,'data/hill/panorama_1.jpg', 'jpg');
 % panorama_1 = 'data/hill/panorama_1.jpg';
 

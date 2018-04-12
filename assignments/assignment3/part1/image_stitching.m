@@ -14,6 +14,7 @@ function panorama = image_stitching(im_left, im_right)
     % im_left = '/Users/macbookpro/Downloads/WechatIMG3.jpeg';
     % im_right = '/Users/macbookpro/Downloads/WechatIMG4.jpeg';
 
+    
     %% 1. Load both images, convert to double and to grayscale.
 
     img_left_rgb = imread(im_left);
@@ -31,6 +32,7 @@ function panorama = image_stitching(im_left, im_right)
         img_right = im2double(img_right_rgb);
     end
 
+    
     %% Filtering and Edge detection (optional)
 
     filtering = 0;
@@ -49,8 +51,8 @@ function panorama = image_stitching(im_left, im_right)
         figure; imshow(im_gauss_filt_right);
 
         % Edge detection
-        img_left_edge = edge(im_gauss_filt_left,'canny',[0.05 0.1]);
-        img_right_edge = edge(im_gauss_filt_right,'canny',[0.05 0.1]);
+        img_left_edge = edge(im_gauss_filt_left, 'canny', [0.05 0.1]);
+        img_right_edge = edge(im_gauss_filt_right, 'canny', [0.05 0.1]);
         
         if ndims(img_left_edge) == 3
             img_left_edge = im2double(rgb2gray(img_left_edge));
@@ -68,6 +70,7 @@ function panorama = image_stitching(im_left, im_right)
         figure; imshow(img_right_edge);
         
     end
+    
     
     %% 2. Detect feature points in both images.
 
@@ -93,7 +96,6 @@ function panorama = image_stitching(im_left, im_right)
     descriptor_left = extract_descriptors(img_left, neighborhoods, left_r, left_c, no_of_corners_left);
     descriptor_right = extract_descriptors(img_right, neighborhoods, right_r, right_c, no_of_corners_right);
 
-
     
     %% 4. Compute distances between every descriptor in one image and every 
     % descriptor in the other image. In MATLAB, you can use dist2.m for 
@@ -101,7 +103,7 @@ function panorama = image_stitching(im_left, im_right)
     % descriptors, you should experiment with computing normalized correlation, 
     % or Euclidean distance after normalizing all descriptors to have zero mean
     % and unit standard deviation.
-    % 
+
 
     % Normalize to zero mean and unit variance
     norm_descriptor_left = zscore(descriptor_left');
@@ -142,12 +144,12 @@ function panorama = image_stitching(im_left, im_right)
         end
     end
     
+    
     %% 6. Run RANSAC to estimate a homography mapping one image onto the other. 
     % Report the number of inliers and the average residual for the inliers 
     % (squared distance between the point coordinates in one image and the 
     % transformed coordinates of the matching point in the other image). 
     % Also, display the locations of inlier matches in both images.
-
 
     [inliers, num_of_inliers, mean_of_residual, H] = RANSAC(matches);
     
@@ -157,7 +159,6 @@ function panorama = image_stitching(im_left, im_right)
     for i = 1:num_of_inliers
         final_matches = [final_matches; matches(inliers(i), :)];
     end
-    
     
     % Show pairwise image features matching
     features_show(img_left_rgb, img_right_rgb, matches, final_matches)
@@ -170,8 +171,7 @@ function panorama = image_stitching(im_left, im_right)
     
     img_left_t = imtransform(img_left_rgb, T, 'nearest', 'XData', xdata, 'YData', ydata);
     img_right_t = imtransform(img_right_rgb, maketform('affine', eye(3)), 'nearest', 'XData', xdata,'YData',ydata);
-    % figure; imshow(img_left_t);
-    % figure; imshow(img_right_t);
+    
     
     %% 8. Create a new image big enough to hold the panorama and composite the two
     % images into it. You can composite by simply averaging the pixel values 
@@ -183,22 +183,6 @@ function panorama = image_stitching(im_left, im_right)
 
     panorama = img_left_t;
     
-%     panorama = zeros(height, width, channels);
-%     for i = 1:channels
-%         temp_left = img_left_t(:,:,i);
-%         temp_right = img_right_t(:,:,i);
-%         for j = 1:height * width
-%             if temp_left(j) == 0 && temp_right(j) ~= 0
-%                 panorama(:,:,i,j) = temp_right(j);
-%             elseif temp_left(j) ~= 0 && temp_right(j) ~= 0
-%                 panorama(:,:,i,j) = (temp_left(j) + temp_right(j)) / 2;
-%             elseif temp_left(j) ~= 0 && temp_right(j) == 0
-%                 panorama(:,:,i,j) = temp_left(j);
-%             end
-%         end
-%     end
-    
-    
     for i = 1:height * width * channels
         if (panorama(i) == 0)
             panorama(i) = img_right_t(i);
@@ -207,6 +191,8 @@ function panorama = image_stitching(im_left, im_right)
         end
     end
 
+    
+    %% Show the stitching result and matches
     figure; imshow(panorama);
     figure; showMatchedFeatures(img_left_rgb, img_right_rgb, final_matches(:, 2:-1:1), final_matches(:, 4:-1:3));
 

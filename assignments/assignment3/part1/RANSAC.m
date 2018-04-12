@@ -1,12 +1,15 @@
 function [inliers, num_of_inliers, mean_of_residual, H_re] = RANSAC(matches)
 
+    % threshold
     threshold = 5;
+    
+    % num of iterations
     iterations = 250;
-    num_of_matches = size(matches, 1);
 
     % Use four matches to initialize the homography in each iteration. 
     num_of_samples = 4;
-    n = 1;
+    n = 1;    
+    num_of_matches = size(matches, 1);
 
     while(n < iterations)
         if num_of_samples == 4
@@ -49,8 +52,6 @@ function [inliers, num_of_inliers, mean_of_residual, H_re] = RANSAC(matches)
 
     mean_of_residual = mean(residual);
     num_of_inliers
-
-
 
 
 end
