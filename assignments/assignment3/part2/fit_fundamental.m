@@ -11,10 +11,10 @@ function F = fit_fundamental(matches, method)
         matches_1 = norm_matches_1;
         matches_2 = norm_matches_2;
     elseif strcmp(method, 'unnormalized')
-        % fprintf('Unnormalization Method \n');
+        fprintf('Unnormalization Method \n');
     else
-        % fprintf('No such method, do you wanna create this? ... \n');
-        % quit cancel;
+        fprintf('No such method, do you wanna create this? ... \n');
+        quit cancel;
     end
     
     num_of_matches = size(matches, 1);
@@ -35,14 +35,14 @@ function F = fit_fundamental(matches, method)
     F = U * S * V';
 
     if strcmp(method, 'normalized')
-        F = tran_cord_2'* F * tran_cord_1;
+        F = tran_cord_2' * F * tran_cord_1;
     end
     
     
     residual = [];
     for i = 1: num_of_matches
         X = F * [matches(i, 1), matches(i, 2), 1]';
-        residual = [residual; abs([matches(i, 3),matches(i, 4), 1] * X)];
+        residual = [residual; abs([matches(i, 3), matches(i, 4), 1] * X)];
     end 
     
     % fprintf('mean_of_residual: %f \n', mean(residual));

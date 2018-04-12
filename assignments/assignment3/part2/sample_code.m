@@ -36,7 +36,7 @@ matches = load('library_matches.txt');
 %%
 
 % Methods of getting Fundamental Matrix
-fundamental_method = 'fit'; % estimate, fit
+fundamental_method = 'estimate'; % estimate, fit
 
 if strcmp(fundamental_method, 'fit')
     % matches = load('library_matches.txt'); 

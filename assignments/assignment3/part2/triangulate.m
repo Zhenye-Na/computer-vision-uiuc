@@ -1,12 +1,5 @@
 function  triangulate(P1_dir, P2_dir, matches_dir)
 
-%     P1 = load('library1_camera.txt');
-%     P2 = load('library2_camera.txt');
-%     matches = load('library_matches.txt'); 
-%     P1 = load('house1_camera.txt');
-%     P2 = load('house2_camera.txt');
-%     matches = load('house_matches.txt'); 
-
     P1 = load(P1_dir);
     P2 = load(P2_dir);
     matches = load(matches_dir);
@@ -37,13 +30,13 @@ function  triangulate(P1_dir, P2_dir, matches_dir)
         coord_3d(i, 1:3) = [X(1) / X(4), X(2) / X(4), X(3) / X(4)];
     end
 
-    figure; plot3(coord_3d(:,1),coord_3d(:, 2),coord_3d(:, 3), '.b');
+    figure; plot3(coord_3d(:,1), coord_3d(:, 2), coord_3d(:, 3), '.b');
     hold on;
     xlabel('x'); ylabel('y'); zlabel('z');
     plot3(C1(1), C1(2), C1(3), 'r*');
     plot3(C2(1), C2(2), C2(3), 'r*');
-    text(C1(1), C1(2), C1(3), 'CC1','Color','red','FontSize',10);
-    text(C2(1), C2(2), C2(3), 'CC2','Color','red','FontSize',10);
+    text(C1(1), C1(2), C1(3), 'CC1', 'Color', 'red', 'FontSize', 10);
+    text(C2(1), C2(2), C2(3), 'CC2', 'Color', 'red', 'FontSize', 10);
     axis equal;
     
     residual_1 = 0;
