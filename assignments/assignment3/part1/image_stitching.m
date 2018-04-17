@@ -1,4 +1,4 @@
-function panorama = image_stitching(im_left, im_right)
+% function panorama = image_stitching(im_left, im_right)
 
     %% Turn off "Warning: Image is too big to fit on screen; displaying at ** "
     warning('off', 'Images:initSize:adjustingMag');
@@ -9,12 +9,14 @@ function panorama = image_stitching(im_left, im_right)
     neighborhoods = 5;
 
     % Input images
-    % im_left = 'data/uttower/uttower_left.jpg';
-    % im_right = 'data/uttower/uttower_right.jpg';
-    % im_left = '/Users/macbookpro/Downloads/WechatIMG3.jpeg';
-    % im_right = '/Users/macbookpro/Downloads/WechatIMG4.jpeg';
+    im_left = 'data/uttower/uttower_left.jpg';
+    im_right = 'data/uttower/uttower_right.jpg';
+%     im_left = 'data/pic/pic_left.jpg';
+%     im_right = 'data/pic/pic_right.jpg';colosseum_up
+%     im_left = 'data/colosseum/colosseum_up.jpg';
+%     im_right = 'data/colosseum/colosseum_down.jpg';
 
-    
+
     %% 1. Load both images, convert to double and to grayscale.
 
     img_left_rgb = imread(im_left);
@@ -35,7 +37,7 @@ function panorama = image_stitching(im_left, im_right)
     
     %% Filtering and Edge detection (optional)
 
-    filtering = 0;
+    filtering = 1;
     if filtering
         
         % Create the gaussian filter with hsize = [5 5] and sigma = 2   
@@ -187,7 +189,7 @@ function panorama = image_stitching(im_left, im_right)
         if (panorama(i) == 0)
             panorama(i) = img_right_t(i);
         elseif(panorama(i) ~= 0 && img_right_t(i) ~= 0)
-            panorama(i) = (img_left_t(i) + img_right_t(i)) / 2;
+            panorama(i) = img_left_t(i) / 2 + img_right_t(i) / 2;
         end
     end
 
@@ -196,5 +198,7 @@ function panorama = image_stitching(im_left, im_right)
     figure; imshow(panorama);
     figure; showMatchedFeatures(img_left_rgb, img_right_rgb, final_matches(:, 2:-1:1), final_matches(:, 4:-1:3));
 
-end
+
+% end
+
 
