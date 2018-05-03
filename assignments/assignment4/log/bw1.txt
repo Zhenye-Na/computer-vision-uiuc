@@ -1,0 +1,105 @@
+/mnt/bwpy/single/usr/lib/python3.5/site-packages/matplotlib/font_manager.py:278: UserWarning: Matplotlib is building the font cache using fc-list. This may take a moment.
+  'Matplotlib is building the font cache using fc-list. '
+Train set size: 45000
+Val set size: 5000
+Test set size: 10000
+[1] loss: 4.487
+Accuracy of the network on the val images: 5 %
+[2] loss: 4.289
+Accuracy of the network on the val images: 7 %
+[3] loss: 4.105
+Accuracy of the network on the val images: 10 %
+[4] loss: 3.901
+Accuracy of the network on the val images: 13 %
+[5] loss: 3.689
+Accuracy of the network on the val images: 16 %
+[6] loss: 3.484
+Accuracy of the network on the val images: 18 %
+[7] loss: 3.295
+Accuracy of the network on the val images: 23 %
+[8] loss: 3.140
+Accuracy of the network on the val images: 22 %
+[9] loss: 3.011
+Accuracy of the network on the val images: 27 %
+[10] loss: 2.903
+Accuracy of the network on the val images: 28 %
+[11] loss: 2.819
+Accuracy of the network on the val images: 29 %
+[12] loss: 2.742
+Accuracy of the network on the val images: 31 %
+[13] loss: 2.675
+Accuracy of the network on the val images: 32 %
+[14] loss: 2.623
+Accuracy of the network on the val images: 34 %
+[15] loss: 2.569
+Accuracy of the network on the val images: 34 %
+[16] loss: 2.525
+Accuracy of the network on the val images: 35 %
+[17] loss: 2.482
+Accuracy of the network on the val images: 36 %
+[18] loss: 2.446
+Accuracy of the network on the val images: 36 %
+[19] loss: 2.412
+Accuracy of the network on the val images: 37 %
+[20] loss: 2.382
+Accuracy of the network on the val images: 38 %
+[21] loss: 2.345
+Accuracy of the network on the val images: 39 %
+[22] loss: 2.322
+Accuracy of the network on the val images: 38 %
+[23] loss: 2.295
+Accuracy of the network on the val images: 39 %
+[24] loss: 2.278
+Accuracy of the network on the val images: 39 %
+[25] loss: 2.253
+Accuracy of the network on the val images: 40 %
+[26] loss: 2.231
+Accuracy of the network on the val images: 40 %
+[27] loss: 2.212
+Accuracy of the network on the val images: 40 %
+[28] loss: 2.192
+Accuracy of the network on the val images: 40 %
+[29] loss: 2.171
+Accuracy of the network on the val images: 40 %
+[30] loss: 2.156
+Accuracy of the network on the val images: 40 %
+[31] loss: 2.137
+Accuracy of the network on the val images: 41 %
+[32] loss: 2.128
+Accuracy of the network on the val images: 41 %
+[33] loss: 2.109
+Accuracy of the network on the val images: 41 %
+[34] loss: 2.093
+Accuracy of the network on the val images: 41 %
+[35] loss: 2.076
+Accuracy of the network on the val images: 42 %
+[36] loss: 2.068
+Accuracy of the network on the val images: 42 %
+[37] loss: 2.052
+Accuracy of the network on the val images: 42 %
+[38] loss: 2.049
+Accuracy of the network on the val images: 42 %
+[39] loss: 2.028
+Accuracy of the network on the val images: 43 %
+[40] loss: 2.020
+Accuracy of the network on the val images: 42 %
+[41] loss: 2.015
+Accuracy of the network on the val images: 43 %
+[42] loss: 1.992
+Accuracy of the network on the val images: 42 %
+[43] loss: 1.997
+Accuracy of the network on the val images: 43 %
+[44] loss: 1.981
+Accuracy of the network on the val images: 42 %
+[45] loss: 1.970
+Accuracy of the network on the val images: 43 %
+[46] loss: 1.964
+Accuracy of the network on the val images: 42 %
+[47] loss: 1.959
+Accuracy of the network on the val images: 44 %
+[48] loss: 1.948
+Accuracy of the network on the val images: 43 %
+[49] loss: 1.944
+Accuracy of the network on the val images: 43 %
+[50] loss: 1.933
+Accuracy of the network on the val images: 42 %

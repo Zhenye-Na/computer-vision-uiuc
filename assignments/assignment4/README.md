@@ -1,4 +1,4 @@
-CS543/ECE549 Assignment 4: Deep ConvNets CIFAR100 playground
+# CS543/ECE549 Assignment 4: Deep ConvNets CIFAR100 playground
 
 The goal of this assignment is to get hands-on experience with deep learning. Starting from a baseline architecture we provided, you will design an improved deep net architecture to classify (small) images of 100 categories. You will evaluate the performance of your architecture by uploading your predictions to this Kaggle competition and submit your code and report describing your implementation choices to Compass2g. This assignment must be done in your project groups and the due date is Wednesday, May 2, 11:59:59PM.
 

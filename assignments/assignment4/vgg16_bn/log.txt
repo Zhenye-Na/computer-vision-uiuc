@@ -1,0 +1,305 @@
+(torchvision) tra852@nid02475:~/zna2> python cifar100_cs543.py
+Train set size: 45000
+Val set size: 5000
+Test set size: 10000
+[1] loss: 4.440
+Accuracy of the network on the val images: 4 %
+[2] loss: 4.148
+Accuracy of the network on the val images: 8 %
+[3] loss: 3.925
+Accuracy of the network on the val images: 11 %
+[4] loss: 3.690
+Accuracy of the network on the val images: 13 %
+[5] loss: 3.488
+Accuracy of the network on the val images: 17 %
+[6] loss: 3.326
+Accuracy of the network on the val images: 19 %
+[7] loss: 3.174
+Accuracy of the network on the val images: 22 %
+[8] loss: 3.052
+Accuracy of the network on the val images: 24 %
+[9] loss: 2.935
+Accuracy of the network on the val images: 26 %
+[10] loss: 2.833
+Accuracy of the network on the val images: 28 %
+[11] loss: 2.730
+Accuracy of the network on the val images: 31 %
+[12] loss: 2.644
+Accuracy of the network on the val images: 32 %
+[13] loss: 2.554
+Accuracy of the network on the val images: 33 %
+[14] loss: 2.480
+Accuracy of the network on the val images: 35 %
+[15] loss: 2.413
+Accuracy of the network on the val images: 36 %
+[16] loss: 2.354
+Accuracy of the network on the val images: 38 %
+[17] loss: 2.297
+Accuracy of the network on the val images: 38 %
+[18] loss: 2.241
+Accuracy of the network on the val images: 39 %
+[19] loss: 2.200
+Accuracy of the network on the val images: 40 %
+[20] loss: 2.148
+Accuracy of the network on the val images: 41 %
+[21] loss: 2.106
+Accuracy of the network on the val images: 42 %
+[22] loss: 2.062
+Accuracy of the network on the val images: 43 %
+[23] loss: 2.028
+Accuracy of the network on the val images: 44 %
+[24] loss: 1.985
+Accuracy of the network on the val images: 45 %
+[25] loss: 1.956
+Accuracy of the network on the val images: 46 %
+[26] loss: 1.920
+Accuracy of the network on the val images: 46 %
+[27] loss: 1.878
+Accuracy of the network on the val images: 47 %
+[28] loss: 1.850
+Accuracy of the network on the val images: 48 %
+[29] loss: 1.818
+Accuracy of the network on the val images: 47 %
+[30] loss: 1.793
+Accuracy of the network on the val images: 49 %
+[31] loss: 1.762
+Accuracy of the network on the val images: 48 %
+[32] loss: 1.736
+Accuracy of the network on the val images: 49 %
+[33] loss: 1.713
+Accuracy of the network on the val images: 49 %
+[34] loss: 1.684
+Accuracy of the network on the val images: 50 %
+[35] loss: 1.659
+Accuracy of the network on the val images: 50 %
+[36] loss: 1.633
+Accuracy of the network on the val images: 51 %
+[37] loss: 1.608
+Accuracy of the network on the val images: 51 %
+[38] loss: 1.597
+Accuracy of the network on the val images: 51 %
+[39] loss: 1.565
+Accuracy of the network on the val images: 52 %
+[40] loss: 1.539
+Accuracy of the network on the val images: 53 %
+[41] loss: 1.516
+Accuracy of the network on the val images: 53 %
+[42] loss: 1.504
+Accuracy of the network on the val images: 53 %
+[43] loss: 1.479
+Accuracy of the network on the val images: 52 %
+[44] loss: 1.455
+Accuracy of the network on the val images: 54 %
+[45] loss: 1.440
+Accuracy of the network on the val images: 53 %
+[46] loss: 1.416
+Accuracy of the network on the val images: 54 %
+[47] loss: 1.397
+Accuracy of the network on the val images: 55 %
+[48] loss: 1.382
+Accuracy of the network on the val images: 56 %
+[49] loss: 1.358
+Accuracy of the network on the val images: 55 %
+[50] loss: 1.340
+Accuracy of the network on the val images: 56 %
+[51] loss: 1.334
+Accuracy of the network on the val images: 55 %
+[52] loss: 1.312
+Accuracy of the network on the val images: 55 %
+[53] loss: 1.298
+Accuracy of the network on the val images: 55 %
+[54] loss: 1.282
+Accuracy of the network on the val images: 57 %
+[55] loss: 1.252
+Accuracy of the network on the val images: 57 %
+[56] loss: 1.249
+Accuracy of the network on the val images: 55 %
+[57] loss: 1.224
+Accuracy of the network on the val images: 56 %
+[58] loss: 1.224
+Accuracy of the network on the val images: 56 %
+[59] loss: 1.203
+Accuracy of the network on the val images: 57 %
+[60] loss: 1.183
+Accuracy of the network on the val images: 56 %
+[61] loss: 1.175
+Accuracy of the network on the val images: 57 %
+[62] loss: 1.148
+Accuracy of the network on the val images: 57 %
+[63] loss: 1.148
+Accuracy of the network on the val images: 57 %
+[64] loss: 1.118
+Accuracy of the network on the val images: 56 %
+[65] loss: 1.118
+Accuracy of the network on the val images: 57 %
+[66] loss: 1.111
+Accuracy of the network on the val images: 58 %
+[67] loss: 1.089
+Accuracy of the network on the val images: 58 %
+[68] loss: 1.079
+Accuracy of the network on the val images: 57 %
+[69] loss: 1.065
+Accuracy of the network on the val images: 58 %
+[70] loss: 1.070
+Accuracy of the network on the val images: 58 %
+[71] loss: 1.034
+Accuracy of the network on the val images: 58 %
+[72] loss: 1.021
+Accuracy of the network on the val images: 59 %
+[73] loss: 1.025
+Accuracy of the network on the val images: 59 %
+[74] loss: 0.992
+Accuracy of the network on the val images: 58 %
+[75] loss: 0.994
+Accuracy of the network on the val images: 58 %
+[76] loss: 0.990
+Accuracy of the network on the val images: 59 %
+[77] loss: 0.974
+Accuracy of the network on the val images: 60 %
+[78] loss: 0.957
+Accuracy of the network on the val images: 58 %
+[79] loss: 0.955
+Accuracy of the network on the val images: 60 %
+[80] loss: 0.940
+Accuracy of the network on the val images: 60 %
+[81] loss: 0.949
+Accuracy of the network on the val images: 59 %
+[82] loss: 0.918
+Accuracy of the network on the val images: 59 %
+[83] loss: 0.904
+Accuracy of the network on the val images: 59 %
+[84] loss: 0.902
+Accuracy of the network on the val images: 59 %
+[85] loss: 0.895
+Accuracy of the network on the val images: 59 %
+[86] loss: 0.878
+Accuracy of the network on the val images: 60 %
+[87] loss: 0.871
+Accuracy of the network on the val images: 60 %
+[88] loss: 0.860
+Accuracy of the network on the val images: 60 %
+[89] loss: 0.852
+Accuracy of the network on the val images: 59 %
+[90] loss: 0.849
+Accuracy of the network on the val images: 58 %
+[91] loss: 0.847
+Accuracy of the network on the val images: 59 %
+[92] loss: 0.826
+Accuracy of the network on the val images: 60 %
+[93] loss: 0.826
+Accuracy of the network on the val images: 60 %
+[94] loss: 0.824
+Accuracy of the network on the val images: 61 %
+[95] loss: 0.811
+Accuracy of the network on the val images: 60 %
+[96] loss: 0.798
+Accuracy of the network on the val images: 60 %
+[97] loss: 0.794
+Accuracy of the network on the val images: 61 %
+[98] loss: 0.791
+Accuracy of the network on the val images: 61 %
+[99] loss: 0.774
+Accuracy of the network on the val images: 60 %
+[100] loss: 0.765
+Accuracy of the network on the val images: 59 %
+[101] loss: 0.758
+Accuracy of the network on the val images: 60 %
+[102] loss: 0.755
+Accuracy of the network on the val images: 60 %
+[103] loss: 0.740
+Accuracy of the network on the val images: 59 %
+[104] loss: 0.746
+Accuracy of the network on the val images: 60 %
+[105] loss: 0.729
+Accuracy of the network on the val images: 60 %
+[106] loss: 0.732
+Accuracy of the network on the val images: 60 %
+[107] loss: 0.713
+Accuracy of the network on the val images: 60 %
+[108] loss: 0.719
+Accuracy of the network on the val images: 59 %
+[109] loss: 0.692
+Accuracy of the network on the val images: 60 %
+[110] loss: 0.690
+Accuracy of the network on the val images: 61 %
+[111] loss: 0.695
+Accuracy of the network on the val images: 61 %
+[112] loss: 0.680
+Accuracy of the network on the val images: 60 %
+[113] loss: 0.682
+Accuracy of the network on the val images: 60 %
+[114] loss: 0.666
+Accuracy of the network on the val images: 61 %
+[115] loss: 0.658
+Accuracy of the network on the val images: 60 %
+[116] loss: 0.662
+Accuracy of the network on the val images: 60 %
+[117] loss: 0.663
+Accuracy of the network on the val images: 60 %
+[118] loss: 0.657
+Accuracy of the network on the val images: 59 %
+[119] loss: 0.647
+Accuracy of the network on the val images: 59 %
+[120] loss: 0.650
+Accuracy of the network on the val images: 60 %
+[121] loss: 0.636
+Accuracy of the network on the val images: 61 %
+[122] loss: 0.636
+Accuracy of the network on the val images: 62 %
+[123] loss: 0.627
+Accuracy of the network on the val images: 60 %
+[124] loss: 0.605
+Accuracy of the network on the val images: 61 %
+[125] loss: 0.619
+Accuracy of the network on the val images: 60 %
+[126] loss: 0.616
+Accuracy of the network on the val images: 60 %
+[127] loss: 0.616
+Accuracy of the network on the val images: 60 %
+[128] loss: 0.616
+Accuracy of the network on the val images: 61 %
+[129] loss: 0.603
+Accuracy of the network on the val images: 59 %
+[130] loss: 0.597
+Accuracy of the network on the val images: 60 %
+[131] loss: 0.593
+Accuracy of the network on the val images: 61 %
+[132] loss: 0.577
+Accuracy of the network on the val images: 59 %
+[133] loss: 0.584
+Accuracy of the network on the val images: 61 %
+[134] loss: 0.579
+Accuracy of the network on the val images: 61 %
+[135] loss: 0.566
+Accuracy of the network on the val images: 61 %
+[136] loss: 0.568
+Accuracy of the network on the val images: 61 %
+[137] loss: 0.558
+Accuracy of the network on the val images: 61 %
+[138] loss: 0.557
+Accuracy of the network on the val images: 60 %
+[139] loss: 0.561
+Accuracy of the network on the val images: 61 %
+[140] loss: 0.550
+Accuracy of the network on the val images: 61 %
+[141] loss: 0.551
+Accuracy of the network on the val images: 61 %
+[142] loss: 0.537
+Accuracy of the network on the val images: 61 %
+[143] loss: 0.529
+Accuracy of the network on the val images: 61 %
+[144] loss: 0.522
+Accuracy of the network on the val images: 61 %
+[145] loss: 0.534
+Accuracy of the network on the val images: 60 %
+[146] loss: 0.524
+Accuracy of the network on the val images: 61 %
+[147] loss: 0.522
+Accuracy of the network on the val images: 62 %
+[148] loss: 0.526
+Accuracy of the network on the val images: 61 %
+[149] loss: 0.507
+Accuracy of the network on the val images: 61 %
+[150] loss: 0.511
+Accuracy of the network on the val images: 61 %
+Finished Training
